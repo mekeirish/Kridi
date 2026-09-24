@@ -2,44 +2,197 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#1e40af" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+<meta name="theme-color" content="#0f172a" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <title>Mes Crédits</title>
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Mes%20Cr%C3%A9dits%22%2C%22short_name%22%3A%22Cr%C3%A9dits%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f3f4f6%22%2C%22theme_color%22%3A%22%231e40af%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A%2F%2Fwww.w3.org%2F2000%2Fsvg%2527%2520viewBox%253D%25270%25200%2520512%2520512%2527%253E%253Crect%2520width%253D%2527512%2527%2520height%253D%2527512%2527%2520rx%253D%2527100%2527%2520fill%253D%2527%25231e40af%2527%252F%253E%253Ctext%2520x%253D%2527256%2527%2520y%253D%2527320%2527%2520font-size%253D%2527250%2527%2520text-anchor%253D%2527middle%2527%2520fill%253D%2527white%2527%253E%25E2%2582%25AC%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%2520maskable%22%7D%5D%7D" />
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Mes%20Cr%C3%A9dits%22%2C%22short_name%22%3A%22Cr%C3%A9dits%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A%2F%2Fwww.w3.org%2F2000%2Fsvg%2527%2520viewBox%253D%25270%25200%2520512%2520512%2527%253E%253Cdefs%253E%253ClinearGradient%2520id%253D%2527g%2527%2520x1%253D%25270%2527%2520y1%253D%25270%2527%2520x2%253D%25271%2527%2520y2%253D%25271%2527%253E%253Cstop%2520offset%253D%25270%2527%2520stop-color%253D%2527%25236366f1%2527%2F%253E%253Cstop%2520offset%253D%25271%2527%2520stop-color%253D%2527%2523a855f7%2527%2F%253E%253C%2FlinearGradient%253E%253C%2Fdefs%253E%253Crect%2520width%253D%2527512%2527%2520height%253D%2527512%2527%2520rx%253D%2527120%2527%2520fill%253D%2527url(%2523g)%2527%2F%253E%253Ctext%2520x%253D%2527256%2527%2520y%253D%2527330%2527%2520font-size%253D%2527260%2527%2520text-anchor%253D%2527middle%2527%2520fill%253D%2527white%2527%2520font-weight%253D%2527bold%2527%253E%25E2%2582%25AC%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%2520maskable%22%7D%5D%7D" />
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  html, body { -webkit-tap-highlight-color: transparent; }
-  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  .fade-in { animation: fadeIn .2s ease-out; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to {opacity:1; transform:none;} }
-  .modal-in { animation: modalIn .22s cubic-bezier(.2,.9,.3,1.2); }
-  @keyframes modalIn { from { opacity: 0; transform: scale(.9);} to {opacity:1; transform:scale(1);} }
-  .num { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
-</style>
+  :root {
+    --brand-1: #6366f1;
+    --brand-2: #a855f7;
+    --brand-3: #ec4899;
+    --ink: #0f172a;
+  }
+  * { -webkit-tap-highlight-color: transparent; }
+  html, body {
+    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #0b1120;
+    overscroll-behavior-y: none;
+  }
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4b6cb7">
-<link rel="apple-touch-icon" href="icon.png"></head>
-<body class="bg-gray-100 min-h-screen text-gray-900">
+  /* Fond dégradé animé subtil */
+  .bg-canvas {
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(99,102,241,.35), transparent 60%),
+      radial-gradient(1000px 500px at 110% 10%, rgba(168,85,247,.28), transparent 55%),
+      radial-gradient(900px 500px at 50% 120%, rgba(236,72,153,.22), transparent 60%),
+      #0b1120;
+  }
+  .bg-canvas::after {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at center, #000 40%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 75%);
+  }
+
+  /* Cartes verre dépoli */
+  .glass {
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.08) inset,
+      0 20px 40px -20px rgba(0,0,0,.6);
+  }
+  .glass-solid {
+    background: rgba(15,23,42,.72);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    border: 1px solid rgba(255,255,255,.10);
+  }
+
+  /* Dégradé de marque */
+  .brand-grad {
+    background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 55%, var(--brand-3) 100%);
+  }
+  .brand-text {
+    background: linear-gradient(135deg, #a5b4fc, #e9d5ff, #fbcfe8);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Bouton principal animé */
+  .btn-primary {
+    position: relative;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    box-shadow:
+      0 10px 30px -10px rgba(99,102,241,.7),
+      0 0 0 1px rgba(255,255,255,.08) inset,
+      0 1px 0 rgba(255,255,255,.25) inset;
+    transition: transform .12s ease, box-shadow .2s ease, filter .2s ease;
+  }
+  .btn-primary::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,.25), transparent 45%);
+    pointer-events: none; opacity: .7;
+  }
+  .btn-primary:active { transform: scale(.97); filter: brightness(.95); }
+
+  /* Bouton succès */
+  .btn-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow:
+      0 8px 22px -8px rgba(16,185,129,.7),
+      0 1px 0 rgba(255,255,255,.25) inset;
+    transition: transform .12s ease, filter .2s ease;
+  }
+  .btn-success:active { transform: scale(.94); filter: brightness(.95); }
+
+  /* Bouton danger */
+  .btn-danger {
+    background: linear-gradient(135deg, #f43f5e, #be123c);
+    box-shadow:
+      0 8px 22px -8px rgba(244,63,94,.7),
+      0 1px 0 rgba(255,255,255,.2) inset;
+    transition: transform .12s ease, filter .2s ease;
+  }
+  .btn-danger:active { transform: scale(.94); filter: brightness(.95); }
+
+  /* Bouton neutre */
+  .btn-ghost {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    transition: transform .12s ease, background .2s ease;
+  }
+  .btn-ghost:active { transform: scale(.95); background: rgba(255,255,255,.14); }
+
+  /* Apparition des items */
+  .fade-in { animation: fadeIn .35s cubic-bezier(.2,.9,.3,1.2); }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px) scale(.98); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Modale */
+  .modal-in { animation: modalIn .28s cubic-bezier(.2,.9,.3,1.3); }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(.9) translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Chiffres alignés */
+  .num { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+  /* Effet de pulsation sur le bandeau total */
+  .pulse-soft { animation: pulseSoft 3s ease-in-out infinite; }
+  @keyframes pulseSoft {
+    0%,100% { box-shadow: 0 20px 50px -20px rgba(244,63,94,.55), 0 0 0 1px rgba(255,255,255,.08) inset; }
+    50%     { box-shadow: 0 25px 60px -20px rgba(244,63,94,.85), 0 0 0 1px rgba(255,255,255,.12) inset; }
+  }
+
+  /* Scrollbar discrète */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* Inputs stylés */
+  .input-lux {
+    background: rgba(255,255,255,.06);
+    border: 1.5px solid rgba(255,255,255,.14);
+    color: white;
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+  }
+  .input-lux::placeholder { color: rgba(255,255,255,.35); }
+  .input-lux:focus {
+    outline: none;
+    border-color: #a855f7;
+    background: rgba(255,255,255,.09);
+    box-shadow: 0 0 0 4px rgba(168,85,247,.18);
+  }
+</style>
+</head>
+<body class="min-h-screen text-white">
+
+<div class="bg-canvas"></div>
 
 <!-- ========== ÉCRAN ACCUEIL ========== -->
-<div id="app" class="max-w-xl mx-auto p-4 pb-40">
+<div id="app" class="max-w-xl mx-auto p-4 pb-44 relative">
 
-  <header class="flex items-center justify-between mb-4 pt-2">
-    <h1 class="text-3xl font-bold text-blue-900">Mes crédits</h1>
-    <button id="btnHistory"
-      class="bg-blue-700 hover:bg-blue-800 active:scale-95 text-white text-lg font-semibold px-4 py-3 rounded-2xl shadow transition flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <!-- En-tête : logo + titre -->
+  <header class="flex items-center justify-between mb-5 pt-3">
+    <div class="flex items-center gap-3">
+      <!-- Logo -->
+      <div class="brand-grad w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-900/40">
+        <span class="text-2xl font-black text-white drop-shadow">€</span>
+      </div>
+      <div>
+        <h1 class="text-2xl font-black leading-none brand-text">Mes crédits</h1>
+        <p class="text-xs text-white/50 mt-0.5 tracking-wide">Gérez ce qu'il reste à payer</p>
+      </div>
+    </div>
+
+    <button id="btnHistory" data-haptic="medium"
+      class="btn-ghost rounded-2xl px-4 py-3 text-sm font-semibold flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3M3.05 11a9 9 0 1 1 .5 4"/>
       </svg>
       Historique
     </button>
   </header>
 
-  <!-- Bouton Ajouter en haut de la liste -->
-  <button id="btnAdd"
-    class="w-full mb-4 bg-green-600 hover:bg-green-700 active:scale-[0.98] text-white text-2xl font-bold py-5 rounded-2xl shadow-lg transition flex items-center justify-center gap-3">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+  <!-- Bouton Ajouter (haut de la liste) -->
+  <button id="btnAdd" data-haptic="heavy"
+    class="btn-primary w-full mb-4 py-5 rounded-3xl text-white text-lg font-extrabold flex items-center justify-center gap-3">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
       <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
     </svg>
     Ajouter un crédit
@@ -47,110 +200,118 @@
 
   <ul id="listCredits" class="space-y-3"></ul>
 
-  <div id="emptyMsg" class="hidden text-center text-gray-500 text-xl mt-16">
-    Aucun crédit pour le moment.<br>Appuyez sur <span class="font-bold text-green-700">+ Ajouter un crédit</span>.
+  <div id="emptyMsg" class="hidden text-center text-white/50 text-lg mt-16 leading-relaxed">
+    Aucun crédit pour le moment.<br>
+    <span class="font-bold brand-text">Appuyez sur + Ajouter</span>
   </div>
 </div>
 
-<!-- ========== BANDEAU TOTAL NON RÉGLÉ (fixe en bas) ========== -->
+<!-- ========== BANDEAU TOTAL NON RÉGLÉ ========== -->
 <div id="totalBanner"
   class="hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-xl px-4 z-30 pointer-events-none">
-  <div class="bg-red-700 text-white rounded-2xl shadow-2xl px-5 py-4 flex items-center justify-between pointer-events-auto">
+  <div class="pulse-soft rounded-3xl px-5 py-4 flex items-center justify-between pointer-events-auto"
+       style="background: linear-gradient(135deg, #be123c, #e11d48 60%, #f43f5e);">
     <div>
-      <div class="text-sm font-semibold text-red-100 uppercase tracking-wide">Reste à payer</div>
-      <div id="totalCount" class="text-xs text-red-200"></div>
+      <div class="text-xs font-bold text-white/80 uppercase tracking-widest">Reste à payer</div>
+      <div id="totalCount" class="text-xs text-white/70 mt-0.5"></div>
     </div>
-    <span id="totalValue" class="num text-3xl font-bold">0,00 €</span>
+    <span id="totalValue" class="num text-3xl font-black">0,00 €</span>
   </div>
 </div>
 
 <!-- ========== ÉCRAN HISTORIQUE ========== -->
-<div id="historyView" class="hidden fixed inset-0 bg-gray-100 z-30 overflow-y-auto">
-  <div class="max-w-xl mx-auto p-4 pb-10">
+<div id="historyView" class="hidden fixed inset-0 z-30 overflow-y-auto" style="background:#0b1120;">
+  <div class="bg-canvas"></div>
+  <div class="max-w-xl mx-auto p-4 pb-10 relative">
 
-    <header class="flex items-center justify-between mb-6 pt-2">
-      <button id="btnBack"
-        class="bg-gray-200 hover:bg-gray-300 active:scale-95 text-gray-900 text-lg font-semibold px-4 py-3 rounded-2xl shadow transition flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <header class="flex items-center justify-between mb-5 pt-3">
+      <button id="btnBack" data-haptic="medium"
+        class="btn-ghost rounded-2xl px-4 py-3 text-sm font-semibold flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
         </svg>
         Retour
       </button>
-      <h2 class="text-2xl font-bold text-blue-900">Historique</h2>
-      <button id="btnClearHistory"
-        class="bg-red-600 hover:bg-red-700 active:scale-95 text-white text-base font-semibold px-4 py-3 rounded-2xl shadow transition">
+      <h2 class="text-xl font-black brand-text">Historique</h2>
+      <button id="btnClearHistory" data-haptic="heavy"
+        class="btn-danger rounded-2xl px-4 py-3 text-sm font-bold">
         Effacer
       </button>
     </header>
 
-    <div id="historyTotal" class="hidden mb-5 bg-blue-900 text-white rounded-2xl px-5 py-4 flex items-center justify-between shadow">
+    <div id="historyTotal" class="hidden mb-5 rounded-3xl px-5 py-4 flex items-center justify-between glass">
       <div>
-        <div class="text-lg font-semibold">Total réglé</div>
-        <div id="historyCount" class="text-sm text-blue-200"></div>
+        <div class="text-xs font-bold text-white/70 uppercase tracking-widest">Total réglé</div>
+        <div id="historyCount" class="text-xs text-white/50 mt-0.5"></div>
       </div>
-      <span id="historyTotalValue" class="num text-2xl font-bold">0,00 €</span>
+      <span id="historyTotalValue" class="num text-2xl font-black brand-text">0,00 €</span>
     </div>
 
-    <div id="historyGroups" class="space-y-4"></div>
+    <div id="historyGroups" class="space-y-5"></div>
 
-    <div id="emptyHistory" class="hidden text-center text-gray-500 text-xl mt-16">
+    <div id="emptyHistory" class="hidden text-center text-white/50 text-lg mt-16">
       Aucun règlement enregistré.
     </div>
   </div>
 </div>
 
 <!-- ========== MODALE CONFIRMATION ========== -->
-<div id="modalConfirm" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-  <div class="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-sm modal-in">
-    <h3 id="modalTitle" class="text-2xl font-bold text-gray-900 mb-3 text-center">Confirmer ?</h3>
-    <p id="modalText" class="text-lg text-gray-700 text-center mb-6">Es-tu sûr ?</p>
+<div id="modalConfirm" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+  <div class="glass-solid rounded-3xl p-6 w-full max-w-sm modal-in">
+    <h3 id="modalTitle" class="text-xl font-black text-white mb-2 text-center">Confirmer ?</h3>
+    <p id="modalText" class="text-base text-white/70 text-center mb-6"></p>
     <div class="flex gap-3">
-      <button id="modalCancel"
-        class="flex-1 bg-gray-200 hover:bg-gray-300 active:scale-95 text-gray-900 text-xl font-bold py-4 rounded-2xl transition">
+      <button id="modalCancel" data-haptic="light"
+        class="btn-ghost flex-1 py-4 rounded-2xl text-white text-lg font-bold">
         Annuler
       </button>
-      <button id="modalOk"
-        class="flex-1 bg-blue-700 hover:bg-blue-800 active:scale-95 text-white text-xl font-bold py-4 rounded-2xl transition">
+      <button id="modalOk" data-haptic="heavy"
+        class="btn-primary flex-1 py-4 rounded-2xl text-white text-lg font-bold">
         Confirmer
       </button>
     </div>
   </div>
 </div>
 
-<!-- ========== ASSISTANT D'AJOUT (3 ÉTAPES) ========== -->
-<div id="modalWizard" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-  <div class="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-sm modal-in">
-    <div class="flex justify-center gap-2 mb-5">
-      <div id="dot1" class="w-3 h-3 rounded-full bg-blue-700"></div>
-      <div id="dot2" class="w-3 h-3 rounded-full bg-gray-300"></div>
-      <div id="dot3" class="w-3 h-3 rounded-full bg-gray-300"></div>
+<!-- ========== ASSISTANT D'AJOUT ========== -->
+<div id="modalWizard" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+  <div class="glass-solid rounded-3xl p-6 w-full max-w-sm modal-in">
+
+    <!-- Progression -->
+    <div class="flex justify-center gap-2 mb-6">
+      <div id="dot1" class="w-8 h-1.5 rounded-full transition-all" style="background:linear-gradient(90deg,#6366f1,#a855f7)"></div>
+      <div id="dot2" class="w-8 h-1.5 rounded-full bg-white/15 transition-all"></div>
+      <div id="dot3" class="w-8 h-1.5 rounded-full bg-white/15 transition-all"></div>
     </div>
 
     <div id="step1">
-      <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Nom ?</h3>
+      <h3 class="text-2xl font-black text-white mb-1 text-center">Nom du crédit</h3>
+      <p class="text-sm text-white/50 text-center mb-5">À qui ou pour quoi ?</p>
       <input id="inputName" type="text" placeholder="Ex : Épicerie"
-        class="w-full text-2xl border-2 border-gray-300 rounded-2xl px-4 py-4 mb-5 focus:outline-none focus:border-blue-600" />
+        class="input-lux w-full text-xl rounded-2xl px-4 py-4 mb-5 font-semibold" />
     </div>
 
     <div id="step2" class="hidden">
-      <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Montant ?</h3>
+      <h3 class="text-2xl font-black text-white mb-1 text-center">Montant</h3>
+      <p class="text-sm text-white/50 text-center mb-5">Combien ?</p>
       <input id="inputAmount" type="number" inputmode="decimal" placeholder="0"
-        class="w-full text-2xl border-2 border-gray-300 rounded-2xl px-4 py-4 mb-5 focus:outline-none focus:border-blue-600" />
+        class="input-lux w-full text-xl rounded-2xl px-4 py-4 mb-5 font-semibold" />
     </div>
 
     <div id="step3" class="hidden">
-      <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Note ?</h3>
-      <input id="inputNote" type="text" placeholder="(facultatif)"
-        class="w-full text-2xl border-2 border-gray-300 rounded-2xl px-4 py-4 mb-5 focus:outline-none focus:border-blue-600" />
+      <h3 class="text-2xl font-black text-white mb-1 text-center">Note</h3>
+      <p class="text-sm text-white/50 text-center mb-5">Facultatif</p>
+      <input id="inputNote" type="text" placeholder="Détails…"
+        class="input-lux w-full text-xl rounded-2xl px-4 py-4 mb-5 font-semibold" />
     </div>
 
     <div class="flex gap-3">
-      <button id="wizCancel"
-        class="flex-1 bg-gray-200 hover:bg-gray-300 active:scale-95 text-gray-900 text-xl font-bold py-4 rounded-2xl transition">
+      <button id="wizCancel" data-haptic="light"
+        class="btn-ghost flex-1 py-4 rounded-2xl text-white text-lg font-bold">
         Annuler
       </button>
-      <button id="wizNext"
-        class="flex-1 bg-blue-700 hover:bg-blue-800 active:scale-95 text-white text-xl font-bold py-4 rounded-2xl transition">
+      <button id="wizNext" data-haptic="heavy"
+        class="btn-primary flex-1 py-4 rounded-2xl text-white text-lg font-bold">
         Suivant
       </button>
     </div>
@@ -158,9 +319,34 @@
 </div>
 
 <!-- ========== TOAST ========== -->
-<div id="toast" class="hidden fixed bottom-28 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-lg font-semibold px-6 py-3 rounded-2xl shadow-xl z-50"></div>
+<div id="toast" class="hidden fixed bottom-32 left-1/2 -translate-x-1/2 glass-solid text-white text-base font-bold px-6 py-3 rounded-2xl shadow-2xl z-50"></div>
 
 <script>
+/* =========================================================
+   HAPTIC FEEDBACK
+   ========================================================= */
+function haptic(type = 'light') {
+  if (!('vibrate' in navigator)) return;
+  const patterns = {
+    light:  8,
+    medium: 18,
+    heavy:  [12, 30, 12],
+    success:[10, 40, 20],
+    error:  [30, 50, 30, 50, 30]
+  };
+  try { navigator.vibrate(patterns[type] || 10); } catch(e) {}
+}
+
+// Attache automatiquement un retour haptique à tous les éléments [data-haptic]
+function bindHaptics(root = document) {
+  root.querySelectorAll('[data-haptic]').forEach(el => {
+    if (el.dataset.hapticBound) return;
+    el.dataset.hapticBound = '1';
+    el.addEventListener('pointerdown', () => haptic(el.dataset.haptic || 'light'), { passive: true });
+  });
+}
+bindHaptics();
+
 /* =========================================================
    STOCKAGE
    ========================================================= */
@@ -227,9 +413,6 @@ function escapeHtml(s) {
 
 /* =========================================================
    RENDU ACCUEIL
-   - bouton Réglé tout à gauche
-   - nom + sous-ligne au centre
-   - montant à droite
    ========================================================= */
 const listCredits = document.getElementById('listCredits');
 const emptyMsg = document.getElementById('emptyMsg');
@@ -244,31 +427,34 @@ function renderCredits() {
 
   state.credits.forEach(c => {
     const li = document.createElement('li');
-    li.className = 'bg-white rounded-2xl shadow px-3 py-3 flex items-center gap-3 fade-in';
+    li.className = 'glass rounded-3xl px-3 py-3 flex items-center gap-3 fade-in';
 
     li.innerHTML = `
-      <button data-id="${c.id}"
-        class="btn-paid shrink-0 bg-green-600 hover:bg-green-700 active:scale-95 text-white text-sm font-bold px-3 py-3 rounded-xl shadow transition leading-tight text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-auto mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+      <button data-id="${c.id}" data-haptic="success"
+        class="btn-success btn-paid shrink-0 text-white text-xs font-black px-3 py-3 rounded-2xl leading-tight text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-auto mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3.2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
         </svg>
         Réglé
       </button>
 
       <div class="min-w-0 flex-1">
-        <div class="text-xl font-bold text-gray-900 truncate">${escapeHtml(c.name)}</div>
-        <div class="text-xs text-gray-400 mt-0.5">
+        <div class="text-lg font-extrabold text-white truncate leading-tight">${escapeHtml(c.name)}</div>
+        <div class="text-[11px] text-white/45 mt-0.5 num">
           ${formatDateShort(c.createdAt)} · ${formatTime(c.createdAt)}
-          ${c.note ? ` · <span class="italic text-gray-500">${escapeHtml(c.note)}</span>` : ''}
+          ${c.note ? ` · <span class="italic text-white/55">${escapeHtml(c.note)}</span>` : ''}
         </div>
       </div>
 
-      <div class="num shrink-0 text-xl font-bold text-gray-900 text-right min-w-[100px]">
+      <div class="num shrink-0 text-xl font-black text-white text-right min-w-[100px]">
         ${formatPrice(c.amount)}
       </div>
     `;
     listCredits.appendChild(li);
   });
+
+  // Haptiques sur les nouveaux boutons
+  bindHaptics(listCredits);
 
   listCredits.querySelectorAll('.btn-paid').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -287,7 +473,7 @@ function renderCredits() {
 }
 
 /* =========================================================
-   BANDEAU TOTAL NON RÉGLÉ
+   BANDEAU TOTAL
    ========================================================= */
 const totalBanner = document.getElementById('totalBanner');
 const totalValue = document.getElementById('totalValue');
@@ -320,11 +506,12 @@ function markAsPaid(id) {
   saveData();
   renderCredits();
   renderHistory();
+  haptic('success');
   showToast('Crédit réglé ✓');
 }
 
 /* =========================================================
-   RENDU HISTORIQUE COMPACT
+   RENDU HISTORIQUE
    ========================================================= */
 const historyGroups = document.getElementById('historyGroups');
 const emptyHistory = document.getElementById('emptyHistory');
@@ -366,45 +553,46 @@ function renderHistory() {
     const section = document.createElement('section');
 
     const header = document.createElement('div');
-    header.className = 'flex items-baseline justify-between px-1 mb-1.5';
+    header.className = 'flex items-baseline justify-between px-2 mb-2';
     header.innerHTML = `
-      <span class="text-sm font-bold text-blue-900 uppercase tracking-wide">
+      <span class="text-xs font-black text-white/80 uppercase tracking-widest">
         ${escapeHtml(formatDateLong(items[0].paidAt))}
       </span>
-      <span class="num text-xs font-semibold text-gray-500">
+      <span class="num text-xs font-bold text-white/50">
         ${items.length} · ${formatPrice(dayTotal)}
       </span>
     `;
     section.appendChild(header);
 
     const card = document.createElement('div');
-    card.className = 'bg-white rounded-2xl shadow overflow-hidden divide-y divide-gray-100';
+    card.className = 'glass rounded-3xl overflow-hidden divide-y divide-white/5';
 
     items.forEach(h => {
       const row = document.createElement('div');
-      row.className = 'px-3 py-2.5 fade-in';
+      row.className = 'px-3 py-3 fade-in';
 
       row.innerHTML = `
-        <div class="flex items-center gap-2.5">
-          <div class="shrink-0 w-7 h-7 rounded-full bg-green-100 text-green-700 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+        <div class="flex items-center gap-3">
+          <div class="shrink-0 w-8 h-8 rounded-2xl flex items-center justify-center"
+               style="background: linear-gradient(135deg, rgba(16,185,129,.25), rgba(5,150,105,.15)); border:1px solid rgba(16,185,129,.35);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3.2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
             </svg>
           </div>
 
           <div class="min-w-0 flex-1">
-            <div class="text-base font-bold text-gray-900 truncate leading-tight">
+            <div class="text-base font-extrabold text-white truncate leading-tight">
               ${escapeHtml(h.name)}
-              ${h.note ? `<span class="font-normal italic text-gray-500"> — ${escapeHtml(h.note)}</span>` : ''}
+              ${h.note ? `<span class="font-medium italic text-white/45"> — ${escapeHtml(h.note)}</span>` : ''}
             </div>
-            <div class="text-[11px] text-gray-500 mt-0.5 num">
+            <div class="text-[11px] text-white/45 mt-0.5 num">
               Ajout ${formatDateShort(h.createdAt)} ${formatTime(h.createdAt)}
-              <span class="text-gray-300 mx-1">→</span>
+              <span class="text-white/20 mx-1">→</span>
               Réglé ${formatTime(h.paidAt)}
             </div>
           </div>
 
-          <div class="num shrink-0 text-base font-bold text-gray-900 text-right min-w-[80px]">
+          <div class="num shrink-0 text-base font-black text-white text-right min-w-[80px]">
             ${formatPrice(h.amount)}
           </div>
         </div>
@@ -433,13 +621,15 @@ function openConfirm(title, text, onOk) {
   modalText.textContent = text;
   confirmCallback = onOk;
   modalConfirm.classList.remove('hidden');
+  haptic('medium');
 }
 function closeConfirm() {
   modalConfirm.classList.add('hidden');
   confirmCallback = null;
 }
-modalCancel.addEventListener('click', closeConfirm);
+modalCancel.addEventListener('click', () => { haptic('light'); closeConfirm(); });
 modalOk.addEventListener('click', () => {
+  haptic('heavy');
   const cb = confirmCallback;
   closeConfirm();
   if (cb) cb();
@@ -470,7 +660,8 @@ function openWizard() {
   inputNote.value = '';
   updateWizard();
   modalWizard.classList.remove('hidden');
-  setTimeout(() => inputName.focus(), 100);
+  haptic('medium');
+  setTimeout(() => inputName.focus(), 120);
 }
 function closeWizard() {
   modalWizard.classList.add('hidden');
@@ -480,9 +671,16 @@ function updateWizard() {
   step2.classList.toggle('hidden', wizardStep !== 2);
   step3.classList.toggle('hidden', wizardStep !== 3);
 
-  dot1.className = 'w-3 h-3 rounded-full ' + (wizardStep >= 1 ? 'bg-blue-700' : 'bg-gray-300');
-  dot2.className = 'w-3 h-3 rounded-full ' + (wizardStep >= 2 ? 'bg-blue-700' : 'bg-gray-300');
-  dot3.className = 'w-3 h-3 rounded-full ' + (wizardStep >= 3 ? 'bg-blue-700' : 'bg-gray-300');
+  const active = 'w-8 h-1.5 rounded-full transition-all';
+  const inactive = 'w-8 h-1.5 rounded-full bg-white/15 transition-all';
+  const grad = 'background:linear-gradient(90deg,#6366f1,#a855f7)';
+
+  dot1.className = wizardStep >= 1 ? active : inactive;
+  dot2.className = wizardStep >= 2 ? active : inactive;
+  dot3.className = wizardStep >= 3 ? active : inactive;
+  if (wizardStep >= 1) dot1.setAttribute('style', grad);
+  if (wizardStep >= 2) dot2.setAttribute('style', grad);
+  if (wizardStep >= 3) dot3.setAttribute('style', grad);
 
   wizNext.textContent = wizardStep === 3 ? 'Terminer' : 'Suivant';
 
@@ -495,12 +693,12 @@ function updateWizard() {
 
 wizNext.addEventListener('click', () => {
   if (wizardStep === 1) {
-    if (!inputName.value.trim()) { showToast('Entre un nom'); return; }
+    if (!inputName.value.trim()) { haptic('error'); showToast('Entre un nom'); return; }
     wizardStep = 2;
     updateWizard();
   } else if (wizardStep === 2) {
     const v = parseFloat(inputAmount.value.replace(',', '.'));
-    if (isNaN(v) || v <= 0) { showToast('Entre un montant valide'); return; }
+    if (isNaN(v) || v <= 0) { haptic('error'); showToast('Entre un montant valide'); return; }
     wizardStep = 3;
     updateWizard();
   } else {
@@ -516,10 +714,11 @@ wizNext.addEventListener('click', () => {
     saveData();
     renderCredits();
     closeWizard();
+    haptic('success');
     showToast('Crédit ajouté ✓');
   }
 });
-wizCancel.addEventListener('click', closeWizard);
+wizCancel.addEventListener('click', () => { haptic('light'); closeWizard(); });
 
 [inputName, inputAmount, inputNote].forEach(inp => {
   inp.addEventListener('keydown', e => {
@@ -543,7 +742,7 @@ document.getElementById('btnBack').addEventListener('click', () => {
    EFFACER HISTORIQUE
    ========================================================= */
 document.getElementById('btnClearHistory').addEventListener('click', () => {
-  if (state.history.length === 0) { showToast('Historique déjà vide'); return; }
+  if (state.history.length === 0) { haptic('error'); showToast('Historique déjà vide'); return; }
   openConfirm(
     'Effacer tout ?',
     "Tout l'historique sera supprimé définitivement.",
@@ -551,6 +750,7 @@ document.getElementById('btnClearHistory').addEventListener('click', () => {
       state.history = [];
       saveData();
       renderHistory();
+      haptic('success');
       showToast('Historique effacé');
     }
   );
@@ -566,7 +766,7 @@ document.getElementById('btnAdd').addEventListener('click', openWizard);
    ========================================================= */
 if ('serviceWorker' in navigator) {
   const swCode = `
-    const CACHE = 'mesCredits-v6';
+    const CACHE = 'mesCredits-v7';
     const ASSETS = ['./', './index.html', 'https://cdn.tailwindcss.com'];
     self.addEventListener('install', e => {
       e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS).catch(()=>{})));
@@ -607,7 +807,5 @@ if ('serviceWorker' in navigator) {
 renderCredits();
 renderHistory();
 </script>
-
-<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));}</script>
 </body>
 </html>
