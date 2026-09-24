@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#0f172a" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="description" content="Application simple pour gérer les crédits à régler" />
 <title>Mes Crédits</title>
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Mes%20Cr%C3%A9dits%22%2C%22short_name%22%3A%22Cr%C3%A9dits%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%253D%2527http%253A%2F%2Fwww.w3.org%2F2000%2Fsvg%2527%2520viewBox%253D%25270%25200%2520512%2520512%2527%253E%253Cdefs%253E%253ClinearGradient%2520id%253D%2527g%2527%2520x1%253D%25270%2527%2520y1%253D%25270%2527%2520x2%253D%25271%2527%2520y2%253D%25271%2527%253E%253Cstop%2520offset%253D%25270%2527%2520stop-color%253D%2527%25236366f1%2527%2F%253E%253Cstop%2520offset%253D%25271%2527%2520stop-color%253D%2527%2523a855f7%2527%2F%253E%253C%2FlinearGradient%253E%253C%2Fdefs%253E%253Crect%2520width%253D%2527512%2527%2520height%253D%2527512%2527%2520rx%253D%2527120%2527%2520fill%253D%2527url(%2523g)%2527%2F%253E%253Ctext%2520x%253D%2527256%2527%2520y%253D%2527330%2527%2520font-size%253D%2527260%2527%2520text-anchor%253D%2527middle%2527%2520fill%253D%2527white%2527%2520font-weight%253D%2527bold%2527%253E%25E2%2582%25AC%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%2520maskable%22%7D%5D%7D" />
 <script src="https://cdn.tailwindcss.com"></script>
@@ -17,23 +18,25 @@
     --brand-1: #6366f1;
     --brand-2: #a855f7;
     --brand-3: #ec4899;
-    --ink: #0f172a;
+    --bg: #0b1120;
   }
-  * { -webkit-tap-highlight-color: transparent; }
+  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
   html, body {
     font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: #0b1120;
+    background: var(--bg);
     overscroll-behavior-y: none;
+    margin: 0;
+    min-height: 100vh;
   }
+  button { font-family: inherit; }
 
-  /* Fond dégradé animé subtil */
   .bg-canvas {
     position: fixed; inset: 0; z-index: -1;
     background:
       radial-gradient(1200px 600px at 10% -10%, rgba(99,102,241,.35), transparent 60%),
       radial-gradient(1000px 500px at 110% 10%, rgba(168,85,247,.28), transparent 55%),
       radial-gradient(900px 500px at 50% 120%, rgba(236,72,153,.22), transparent 60%),
-      #0b1120;
+      var(--bg);
   }
   .bg-canvas::after {
     content: ''; position: absolute; inset: 0;
@@ -43,42 +46,52 @@
     -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 75%);
   }
 
-  /* Cartes verre dépoli */
   .glass {
     background: rgba(255,255,255,.06);
     backdrop-filter: blur(18px) saturate(140%);
     -webkit-backdrop-filter: blur(18px) saturate(140%);
     border: 1px solid rgba(255,255,255,.10);
-    box-shadow:
-      0 1px 0 rgba(255,255,255,.08) inset,
-      0 20px 40px -20px rgba(0,0,0,.6);
+    box-shadow: 0 1px 0 rgba(255,255,255,.08) inset, 0 20px 40px -20px rgba(0,0,0,.6);
   }
   .glass-solid {
-    background: rgba(15,23,42,.72);
+    background: rgba(15,23,42,.78);
     backdrop-filter: blur(22px) saturate(150%);
     -webkit-backdrop-filter: blur(22px) saturate(150%);
     border: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 25px 60px -25px rgba(0,0,0,.9);
   }
 
-  /* Dégradé de marque */
-  .brand-grad {
-    background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 55%, var(--brand-3) 100%);
-  }
+  .brand-grad { background: linear-gradient(135deg, var(--brand-1), var(--brand-2) 55%, var(--brand-3)); }
   .brand-text {
     background: linear-gradient(135deg, #a5b4fc, #e9d5ff, #fbcfe8);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  .num { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
 
-  /* Bouton principal animé */
-  .btn-primary {
+  .btn {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    font-weight: 800;
+    transition: transform .12s ease, box-shadow .2s ease, filter .2s ease, background .2s ease;
+    cursor: pointer;
+    border: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  .btn:focus-visible { outline: 2px solid #a855f7; outline-offset: 3px; }
+
+  .btn-primary {
     background: linear-gradient(135deg, #6366f1, #a855f7);
     box-shadow:
       0 10px 30px -10px rgba(99,102,241,.7),
       0 0 0 1px rgba(255,255,255,.08) inset,
       0 1px 0 rgba(255,255,255,.25) inset;
-    transition: transform .12s ease, box-shadow .2s ease, filter .2s ease;
+    color: white;
   }
   .btn-primary::before {
     content: ''; position: absolute; inset: 0; border-radius: inherit;
@@ -87,69 +100,65 @@
   }
   .btn-primary:active { transform: scale(.97); filter: brightness(.95); }
 
-  /* Bouton succès */
-  .btn-success {
-    background: linear-gradient(135deg, #10b981, #059669);
-    box-shadow:
-      0 8px 22px -8px rgba(16,185,129,.7),
-      0 1px 0 rgba(255,255,255,.25) inset;
-    transition: transform .12s ease, filter .2s ease;
-  }
-  .btn-success:active { transform: scale(.94); filter: brightness(.95); }
-
-  /* Bouton danger */
   .btn-danger {
     background: linear-gradient(135deg, #f43f5e, #be123c);
-    box-shadow:
-      0 8px 22px -8px rgba(244,63,94,.7),
-      0 1px 0 rgba(255,255,255,.2) inset;
-    transition: transform .12s ease, filter .2s ease;
+    box-shadow: 0 8px 22px -8px rgba(244,63,94,.7), 0 1px 0 rgba(255,255,255,.2) inset;
+    color: white;
   }
   .btn-danger:active { transform: scale(.94); filter: brightness(.95); }
 
-  /* Bouton neutre */
   .btn-ghost {
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.12);
-    transition: transform .12s ease, background .2s ease;
+    color: white;
   }
   .btn-ghost:active { transform: scale(.95); background: rgba(255,255,255,.14); }
 
-  /* Apparition des items */
+  .total-banner {
+    background: linear-gradient(135deg, #be123c, #e11d48 60%, #f43f5e);
+    cursor: pointer;
+    transition: transform .15s ease, filter .2s ease;
+    box-shadow: 0 20px 50px -20px rgba(244,63,94,.55), 0 0 0 1px rgba(255,255,255,.08) inset;
+  }
+  .total-banner:active { transform: scale(.97); filter: brightness(.95); }
+  .total-banner:hover { filter: brightness(1.05); }
+
   .fade-in { animation: fadeIn .35s cubic-bezier(.2,.9,.3,1.2); }
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px) scale(.98); }
     to   { opacity: 1; transform: none; }
   }
 
-  /* Modale */
   .modal-in { animation: modalIn .28s cubic-bezier(.2,.9,.3,1.3); }
   @keyframes modalIn {
     from { opacity: 0; transform: scale(.9) translateY(10px); }
     to   { opacity: 1; transform: none; }
   }
 
-  /* Chiffres alignés */
-  .num { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
-
-  /* Effet de pulsation sur le bandeau total */
-  .pulse-soft { animation: pulseSoft 3s ease-in-out infinite; }
   @keyframes pulseSoft {
     0%,100% { box-shadow: 0 20px 50px -20px rgba(244,63,94,.55), 0 0 0 1px rgba(255,255,255,.08) inset; }
     50%     { box-shadow: 0 25px 60px -20px rgba(244,63,94,.85), 0 0 0 1px rgba(255,255,255,.12) inset; }
   }
+  .pulse-soft { animation: pulseSoft 3s ease-in-out infinite; }
 
-  /* Scrollbar discrète */
+  .paid-flash { animation: paidFlash .7s ease; }
+  @keyframes paidFlash {
+    0%   { box-shadow: 0 0 0 0 rgba(16,185,129,.6); }
+    50%  { box-shadow: 0 0 0 14px rgba(16,185,129,0); }
+    100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+  }
+
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 8px; }
   ::-webkit-scrollbar-track { background: transparent; }
 
-  /* Inputs stylés */
   .input-lux {
     background: rgba(255,255,255,.06);
     border: 1.5px solid rgba(255,255,255,.14);
     color: white;
     transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+    width: 100%;
+    font-family: inherit;
   }
   .input-lux::placeholder { color: rgba(255,255,255,.35); }
   .input-lux:focus {
@@ -158,23 +167,42 @@
     background: rgba(255,255,255,.09);
     box-shadow: 0 0 0 4px rgba(168,85,247,.18);
   }
+  .input-lux::-webkit-outer-spin-button,
+  .input-lux::-webkit-inner-spin-button {
+    -webkit-appearance: none; margin: 0;
+  }
+  .input-lux[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
+  #modalWizard { transition: padding-bottom .25s ease; }
+  #wizardCard {
+    transition: transform .25s cubic-bezier(.2,.9,.3,1.2);
+    will-change: transform;
+  }
+  @media (max-width: 640px) {
+    #modalWizard { align-items: flex-start; padding-top: 8vh; }
+    #modalWizard.kb-open { padding-top: 2vh; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+    .pulse-soft { animation: none; }
+  }
 </style>
+</head>
+<body class="text-white">
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4b6cb7">
-<link rel="apple-touch-icon" href="icon.png"></head>
-<body class="min-h-screen text-white">
+<div class="bg-canvas" aria-hidden="true"></div>
 
-<div class="bg-canvas"></div>
+<!-- ÉCRAN ACCUEIL -->
+<main id="app" class="max-w-xl mx-auto p-4 pb-44 relative">
 
-<!-- ========== ÉCRAN ACCUEIL ========== -->
-<div id="app" class="max-w-xl mx-auto p-4 pb-44 relative">
-
-  <!-- En-tête : logo + titre -->
   <header class="flex items-center justify-between mb-5 pt-3">
     <div class="flex items-center gap-3">
-      <!-- Logo -->
-      <div class="brand-grad w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-900/40">
+      <div class="brand-grad w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-900/40" aria-hidden="true">
         <span class="text-2xl font-black text-white drop-shadow">€</span>
       </div>
       <div>
@@ -183,61 +211,67 @@
       </div>
     </div>
 
-    <button id="btnHistory" data-haptic="medium"
-      class="btn-ghost rounded-2xl px-4 py-3 text-sm font-semibold flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+    <button id="btnHistory" type="button" data-haptic="medium"
+      class="btn btn-ghost rounded-2xl px-4 py-3 text-sm"
+      aria-label="Voir l'historique des règlements">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3M3.05 11a9 9 0 1 1 .5 4"/>
       </svg>
       Historique
     </button>
   </header>
 
-  <!-- Bouton Ajouter (haut de la liste) -->
-  <button id="btnAdd" data-haptic="heavy"
-    class="btn-primary w-full mb-4 py-5 rounded-3xl text-white text-lg font-extrabold flex items-center justify-center gap-3">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+  <button id="btnAdd" type="button" data-haptic="heavy"
+    class="btn btn-primary w-full mb-4 py-5 rounded-3xl text-lg"
+    aria-label="Ajouter un nouveau crédit">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
     </svg>
     Ajouter un crédit
   </button>
 
-  <ul id="listCredits" class="space-y-3"></ul>
+  <ul id="listCredits" class="space-y-3" aria-live="polite"></ul>
 
   <div id="emptyMsg" class="hidden text-center text-white/50 text-lg mt-16 leading-relaxed">
     Aucun crédit pour le moment.<br>
     <span class="font-bold brand-text">Appuyez sur + Ajouter</span>
   </div>
-</div>
+</main>
 
-<!-- ========== BANDEAU TOTAL NON RÉGLÉ ========== -->
-<div id="totalBanner"
-  class="hidden fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-xl px-4 z-30 pointer-events-none">
-  <div class="pulse-soft rounded-3xl px-5 py-4 flex items-center justify-between pointer-events-auto"
-       style="background: linear-gradient(135deg, #be123c, #e11d48 60%, #f43f5e);">
+<!-- BANDEAU TOTAL -->
+<button id="totalBanner" type="button"
+  class="hidden fixed bottom-4 left-1/2 w-full max-w-xl px-4 z-30 text-left"
+  style="transform: translateX(-50%);"
+  aria-label="Régler tous les crédits">
+  <div class="pulse-soft total-banner rounded-3xl px-5 py-4 flex items-center justify-between w-full"
+       data-haptic="heavy">
     <div>
       <div class="text-xs font-bold text-white/80 uppercase tracking-widest">Reste à payer</div>
       <div id="totalCount" class="text-xs text-white/70 mt-0.5"></div>
+      <div class="text-[10px] text-white/60 mt-1 italic">Appuyez pour tout régler</div>
     </div>
     <span id="totalValue" class="num text-3xl font-black">0,00 €</span>
   </div>
-</div>
+</button>
 
-<!-- ========== ÉCRAN HISTORIQUE ========== -->
-<div id="historyView" class="hidden fixed inset-0 z-30 overflow-y-auto" style="background:#0b1120;">
-  <div class="bg-canvas"></div>
+<!-- HISTORIQUE -->
+<section id="historyView" class="hidden fixed inset-0 z-30 overflow-y-auto" style="background:var(--bg);">
+  <div class="bg-canvas" aria-hidden="true"></div>
   <div class="max-w-xl mx-auto p-4 pb-10 relative">
 
     <header class="flex items-center justify-between mb-5 pt-3">
-      <button id="btnBack" data-haptic="medium"
-        class="btn-ghost rounded-2xl px-4 py-3 text-sm font-semibold flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+      <button id="btnBack" type="button" data-haptic="medium"
+        class="btn btn-ghost rounded-2xl px-4 py-3 text-sm"
+        aria-label="Retour à l'accueil">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
         </svg>
         Retour
       </button>
       <h2 class="text-xl font-black brand-text">Historique</h2>
-      <button id="btnClearHistory" data-haptic="heavy"
-        class="btn-danger rounded-2xl px-4 py-3 text-sm font-bold">
+      <button id="btnClearHistory" type="button" data-haptic="heavy"
+        class="btn btn-danger rounded-2xl px-4 py-3 text-sm"
+        aria-label="Effacer tout l'historique">
         Effacer
       </button>
     </header>
@@ -256,135 +290,117 @@
       Aucun règlement enregistré.
     </div>
   </div>
-</div>
+</section>
 
-<!-- ========== MODALE CONFIRMATION ========== -->
-<div id="modalConfirm" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<!-- MODALE CONFIRMATION -->
+<div id="modalConfirm" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+     role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="glass-solid rounded-3xl p-6 w-full max-w-sm modal-in">
     <h3 id="modalTitle" class="text-xl font-black text-white mb-2 text-center">Confirmer ?</h3>
     <p id="modalText" class="text-base text-white/70 text-center mb-6"></p>
     <div class="flex gap-3">
-      <button id="modalCancel" data-haptic="light"
-        class="btn-ghost flex-1 py-4 rounded-2xl text-white text-lg font-bold">
+      <button id="modalCancel" type="button" data-haptic="light"
+        class="btn btn-ghost flex-1 py-4 rounded-2xl text-lg">
         Annuler
       </button>
-      <button id="modalOk" data-haptic="heavy"
-        class="btn-primary flex-1 py-4 rounded-2xl text-white text-lg font-bold">
+      <button id="modalOk" type="button" data-haptic="heavy"
+        class="btn btn-primary flex-1 py-4 rounded-2xl text-lg">
         Confirmer
       </button>
     </div>
   </div>
 </div>
 
-<!-- ========== ASSISTANT D'AJOUT ========== -->
-<div id="modalWizard" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-  <div class="glass-solid rounded-3xl p-6 w-full max-w-sm modal-in">
+<!-- MODALE AJOUT -->
+<div id="modalWizard" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+     role="dialog" aria-modal="true" aria-labelledby="wizardTitle">
+  <div id="wizardCard" class="glass-solid rounded-3xl p-6 w-full max-w-sm modal-in">
 
-    <!-- Progression -->
-    <div class="flex justify-center gap-2 mb-6">
-      <div id="dot1" class="w-8 h-1.5 rounded-full transition-all" style="background:linear-gradient(90deg,#6366f1,#a855f7)"></div>
-      <div id="dot2" class="w-8 h-1.5 rounded-full bg-white/15 transition-all"></div>
-      <div id="dot3" class="w-8 h-1.5 rounded-full bg-white/15 transition-all"></div>
+    <div class="flex justify-center mb-5">
+      <div class="brand-grad w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-900/40" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+        </svg>
+      </div>
     </div>
 
-    <div id="step1">
-      <h3 class="text-2xl font-black text-white mb-1 text-center">Nom du crédit</h3>
-      <p class="text-sm text-white/50 text-center mb-5">À qui ou pour quoi ?</p>
-      <input id="inputName" type="text" placeholder="Ex : Épicerie"
-        class="input-lux w-full text-xl rounded-2xl px-4 py-4 mb-5 font-semibold" />
-    </div>
+    <h3 id="wizardTitle" class="text-2xl font-black text-white mb-1 text-center">Montant</h3>
+    <p class="text-sm text-white/50 text-center mb-5">Combien ?</p>
 
-    <div id="step2" class="hidden">
-      <h3 class="text-2xl font-black text-white mb-1 text-center">Montant</h3>
-      <p class="text-sm text-white/50 text-center mb-5">Combien ?</p>
-      <input id="inputAmount" type="number" inputmode="decimal" placeholder="0"
-        class="input-lux w-full text-xl rounded-2xl px-4 py-4 mb-5 font-semibold" />
-    </div>
+    <form id="wizardForm" autocomplete="off" novalidate>
+      <div class="relative mb-5">
+        <input id="inputAmount" type="text" inputmode="decimal"
+          placeholder="0" autocomplete="off" enterkeyhint="done"
+          aria-label="Montant du crédit"
+          class="input-lux text-3xl font-black text-center rounded-2xl pl-4 pr-14 py-5" />
+        <span class="absolute right-5 top-1/2 -translate-y-1/2 text-2xl font-black text-white/40 pointer-events-none" aria-hidden="true">€</span>
+      </div>
 
-    <div id="step3" class="hidden">
-      <h3 class="text-2xl font-black text-white mb-1 text-center">Note</h3>
-      <p class="text-sm text-white/50 text-center mb-5">Facultatif</p>
-      <input id="inputNote" type="text" placeholder="Détails…"
-        class="input-lux w-full text-xl rounded-2xl px-4 py-4 mb-5 font-semibold" />
-    </div>
-
-    <div class="flex gap-3">
-      <button id="wizCancel" data-haptic="light"
-        class="btn-ghost flex-1 py-4 rounded-2xl text-white text-lg font-bold">
-        Annuler
-      </button>
-      <button id="wizNext" data-haptic="heavy"
-        class="btn-primary flex-1 py-4 rounded-2xl text-white text-lg font-bold">
-        Suivant
-      </button>
-    </div>
+      <div class="flex gap-3">
+        <button id="wizCancel" type="button" data-haptic="light"
+          class="btn btn-ghost flex-1 py-4 rounded-2xl text-lg">
+          Annuler
+        </button>
+        <button id="wizNext" type="submit" data-haptic="heavy"
+          class="btn btn-primary flex-1 py-4 rounded-2xl text-lg">
+          Ajouter
+        </button>
+      </div>
+    </form>
   </div>
 </div>
 
-<!-- ========== TOAST ========== -->
-<div id="toast" class="hidden fixed bottom-32 left-1/2 -translate-x-1/2 glass-solid text-white text-base font-bold px-6 py-3 rounded-2xl shadow-2xl z-50"></div>
+<!-- TOAST -->
+<div id="toast" role="status" aria-live="polite"
+  class="hidden fixed bottom-32 left-1/2 -translate-x-1/2 glass-solid text-white text-base font-bold px-6 py-3 rounded-2xl shadow-2xl z-50"></div>
 
 <script>
-/* =========================================================
-   HAPTIC FEEDBACK
-   ========================================================= */
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const CONFIG = {
+  storageKey: 'mesCredits_v1',
+  historyLimit: 500,
+  minAmount: 0.01,
+  maxAmount: 999999.99,
+  toastDuration: 1800,
+  keyboardThreshold: 80
+};
+
+/* ============================================================
+   HAPTIC
+   ============================================================ */
+const HAPTIC_PATTERNS = {
+  light:   8,
+  medium:  18,
+  heavy:   [12, 30, 12],
+  success: [10, 40, 20],
+  error:   [30, 50, 30, 50, 30]
+};
+const supportsVibrate = 'vibrate' in navigator;
+
 function haptic(type = 'light') {
-  if (!('vibrate' in navigator)) return;
-  const patterns = {
-    light:  8,
-    medium: 18,
-    heavy:  [12, 30, 12],
-    success:[10, 40, 20],
-    error:  [30, 50, 30, 50, 30]
-  };
-  try { navigator.vibrate(patterns[type] || 10); } catch(e) {}
+  if (!supportsVibrate) return;
+  try { navigator.vibrate(HAPTIC_PATTERNS[type] || HAPTIC_PATTERNS.light); } catch(_) {}
 }
 
-// Attache automatiquement un retour haptique à tous les éléments [data-haptic]
 function bindHaptics(root = document) {
   root.querySelectorAll('[data-haptic]').forEach(el => {
     if (el.dataset.hapticBound) return;
     el.dataset.hapticBound = '1';
-    el.addEventListener('pointerdown', () => haptic(el.dataset.haptic || 'light'), { passive: true });
+    el.addEventListener('pointerdown', () => haptic(el.dataset.haptic), { passive: true });
   });
 }
-bindHaptics();
 
-/* =========================================================
-   STOCKAGE
-   ========================================================= */
-const STORAGE_KEY = 'mesCredits_v1';
-
-function loadData() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { credits: [], history: [] };
-    const d = JSON.parse(raw);
-    return { credits: d.credits || [], history: d.history || [] };
-  } catch(e) {
-    return { credits: [], history: [] };
-  }
-}
-function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-let state = loadData();
-
-/* =========================================================
+/* ============================================================
    UTILITAIRES
-   ========================================================= */
+   ============================================================ */
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
 function formatPrice(n) {
   const v = Number(n) || 0;
   return v.toFixed(2).replace('.', ',') + ' €';
-}
-function formatDateLong(iso) {
-  const d = new Date(iso);
-  const today = new Date();
-  const yest = new Date(); yest.setDate(today.getDate() - 1);
-  const sameDay = (a,b) => a.toDateString() === b.toDateString();
-  if (sameDay(d, today)) return "Aujourd'hui";
-  if (sameDay(d, yest)) return 'Hier';
-  return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 }
 function formatDateShort(iso) {
   if (!iso) return '—';
@@ -394,138 +410,185 @@ function formatTime(iso) {
   if (!iso) return '—';
   return new Date(iso).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 }
+function formatDateLong(iso) {
+  const d = new Date(iso);
+  const today = new Date();
+  const yest = new Date(); yest.setDate(today.getDate() - 1);
+  const sameDay = (a, b) => a.toDateString() === b.toDateString();
+  if (sameDay(d, today)) return "Aujourd'hui";
+  if (sameDay(d, yest)) return 'Hier';
+  return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
 function dateKey(iso) {
   const d = new Date(iso);
-  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 }
-function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+function parseAmount(str) {
+  if (typeof str !== 'string') return NaN;
+  const cleaned = str.trim().replace(/\s/g, '').replace(',', '.');
+  if (!cleaned) return NaN;
+  const v = parseFloat(cleaned);
+  if (!isFinite(v)) return NaN;
+  return Math.round(v * 100) / 100;
 }
+
+/* ============================================================
+   STOCKAGE
+   ============================================================ */
+function isValidCredit(c) {
+  return c && typeof c === 'object' && typeof c.id === 'string' && isFinite(c.amount) && c.amount > 0;
+}
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(CONFIG.storageKey);
+    if (!raw) return { credits: [], history: [] };
+    const d = JSON.parse(raw);
+    return {
+      credits: Array.isArray(d.credits) ? d.credits.filter(isValidCredit) : [],
+      history: Array.isArray(d.history) ? d.history.filter(isValidCredit).slice(0, CONFIG.historyLimit) : []
+    };
+  } catch (e) {
+    console.warn('Erreur de chargement:', e);
+    return { credits: [], history: [] };
+  }
+}
+
+function saveData() {
+  try {
+    if (state.history.length > CONFIG.historyLimit) {
+      state.history = state.history.slice(0, CONFIG.historyLimit);
+    }
+    localStorage.setItem(CONFIG.storageKey, JSON.stringify(state));
+  } catch (e) {
+    console.warn('Erreur de sauvegarde:', e);
+    showToast('⚠️ Sauvegarde impossible');
+  }
+}
+
+let state = loadData();
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastTimer = null;
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.remove('hidden');
-  clearTimeout(showToast._tid);
-  showToast._tid = setTimeout(() => t.classList.add('hidden'), 1800);
-}
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, m => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[m]));
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.add('hidden'), CONFIG.toastDuration);
 }
 
-/* =========================================================
+/* ============================================================
+   DOM
+   ============================================================ */
+const $ = id => document.getElementById(id);
+
+const listCredits       = $('listCredits');
+const emptyMsg          = $('emptyMsg');
+const totalBanner       = $('totalBanner');
+const totalValue        = $('totalValue');
+const totalCount        = $('totalCount');
+const historyView       = $('historyView');
+const historyGroups     = $('historyGroups');
+const emptyHistory      = $('emptyHistory');
+const historyTotal      = $('historyTotal');
+const historyTotalValue = $('historyTotalValue');
+const historyCount      = $('historyCount');
+const modalConfirm      = $('modalConfirm');
+const modalTitle        = $('modalTitle');
+const modalText         = $('modalText');
+const modalOk           = $('modalOk');
+const modalCancel       = $('modalCancel');
+const modalWizard       = $('modalWizard');
+const wizardCard        = $('wizardCard');
+const wizardForm        = $('wizardForm');
+const inputAmount       = $('inputAmount');
+const wizNext           = $('wizNext');
+const wizCancel         = $('wizCancel');
+
+/* ============================================================
    RENDU ACCUEIL
-   ========================================================= */
-const listCredits = document.getElementById('listCredits');
-const emptyMsg = document.getElementById('emptyMsg');
-
+   ============================================================ */
 function renderCredits() {
-  listCredits.innerHTML = '';
-  if (state.credits.length === 0) {
-    emptyMsg.classList.remove('hidden');
-  } else {
-    emptyMsg.classList.add('hidden');
-  }
+  const frag = document.createDocumentFragment();
 
   state.credits.forEach(c => {
     const li = document.createElement('li');
-    li.className = 'glass rounded-3xl px-3 py-3 flex items-center gap-3 fade-in';
+    li.className = 'glass rounded-3xl px-5 py-4 flex items-center gap-3 fade-in';
 
-    li.innerHTML = `
-      <button data-id="${c.id}" data-haptic="success"
-        class="btn-success btn-paid shrink-0 text-white text-xs font-black px-3 py-3 rounded-2xl leading-tight text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-auto mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3.2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-        </svg>
-        Réglé
-      </button>
+    const pill = document.createElement('div');
+    pill.className = 'shrink-0 w-10 h-10 rounded-2xl flex items-center justify-center';
+    pill.style.cssText = 'background:linear-gradient(135deg,rgba(244,63,94,.22),rgba(190,18,60,.12));border:1px solid rgba(244,63,94,.35)';
+    pill.innerHTML = '<span class="text-rose-300 font-black text-lg">€</span>';
 
-      <div class="min-w-0 flex-1">
-        <div class="text-lg font-extrabold text-white truncate leading-tight">${escapeHtml(c.name)}</div>
-        <div class="text-[11px] text-white/45 mt-0.5 num">
-          ${formatDateShort(c.createdAt)} · ${formatTime(c.createdAt)}
-          ${c.note ? ` · <span class="italic text-white/55">${escapeHtml(c.note)}</span>` : ''}
-        </div>
-      </div>
+    const info = document.createElement('div');
+    info.className = 'min-w-0 flex-1';
+    info.innerHTML = `<div class="text-[11px] text-white/45 num">Ajouté le ${formatDateShort(c.createdAt)} à ${formatTime(c.createdAt)}</div>`;
 
-      <div class="num shrink-0 text-xl font-black text-white text-right min-w-[100px]">
-        ${formatPrice(c.amount)}
-      </div>
-    `;
-    listCredits.appendChild(li);
+    const amount = document.createElement('div');
+    amount.className = 'num shrink-0 text-2xl font-black text-white text-right';
+    amount.textContent = formatPrice(c.amount);
+
+    li.append(pill, info, amount);
+    frag.appendChild(li);
   });
 
-  // Haptiques sur les nouveaux boutons
-  bindHaptics(listCredits);
-
-  listCredits.querySelectorAll('.btn-paid').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = btn.getAttribute('data-id');
-      const credit = state.credits.find(x => x.id === id);
-      if (!credit) return;
-      openConfirm(
-        'Marquer comme réglé ?',
-        `${credit.name} — ${formatPrice(credit.amount)}`,
-        () => markAsPaid(id)
-      );
-    });
-  });
-
+  listCredits.replaceChildren(frag);
+  emptyMsg.classList.toggle('hidden', state.credits.length > 0);
   renderTotalBanner();
 }
 
-/* =========================================================
+/* ============================================================
    BANDEAU TOTAL
-   ========================================================= */
-const totalBanner = document.getElementById('totalBanner');
-const totalValue = document.getElementById('totalValue');
-const totalCount = document.getElementById('totalCount');
-
+   ============================================================ */
 function renderTotalBanner() {
-  if (state.credits.length === 0) {
-    totalBanner.classList.add('hidden');
-    return;
-  }
-  totalBanner.classList.remove('hidden');
+  const has = state.credits.length > 0;
+  totalBanner.classList.toggle('hidden', !has);
+  if (!has) return;
 
-  const total = state.credits.reduce((s, c) => s + (Number(c.amount) || 0), 0);
+  const total = state.credits.reduce((s, c) => s + c.amount, 0);
   const n = state.credits.length;
 
   totalValue.textContent = formatPrice(total);
   totalCount.textContent = n + (n > 1 ? ' crédits en attente' : ' crédit en attente');
 }
 
-/* =========================================================
-   MARQUER COMME RÉGLÉ
-   ========================================================= */
-function markAsPaid(id) {
-  const idx = state.credits.findIndex(c => c.id === id);
-  if (idx === -1) return;
-  const credit = state.credits[idx];
-  credit.paidAt = new Date().toISOString();
-  state.history.unshift(credit);
-  state.credits.splice(idx, 1);
+/* ============================================================
+   RÉGLER TOUT
+   ============================================================ */
+function payAll() {
+  if (state.credits.length === 0) return;
+
+  const total = state.credits.reduce((s, c) => s + c.amount, 0);
+  const now = new Date().toISOString();
+
+  state.credits.forEach(c => {
+    c.paidAt = now;
+    state.history.unshift(c);
+  });
+  state.credits = [];
+
   saveData();
   renderCredits();
   renderHistory();
+
+  totalBanner.classList.add('paid-flash');
+  setTimeout(() => totalBanner.classList.remove('paid-flash'), 700);
+
   haptic('success');
-  showToast('Crédit réglé ✓');
+  showToast('Tout est réglé ✓ ' + formatPrice(total));
 }
 
-/* =========================================================
+/* ============================================================
    RENDU HISTORIQUE
-   ========================================================= */
-const historyGroups = document.getElementById('historyGroups');
-const emptyHistory = document.getElementById('emptyHistory');
-const historyTotal = document.getElementById('historyTotal');
-const historyTotalValue = document.getElementById('historyTotalValue');
-const historyCount = document.getElementById('historyCount');
-
+   ============================================================ */
 function renderHistory() {
-  historyGroups.innerHTML = '';
+  const frag = document.createDocumentFragment();
 
   if (state.history.length === 0) {
+    historyGroups.replaceChildren();
     emptyHistory.classList.remove('hidden');
     historyTotal.classList.add('hidden');
     return;
@@ -533,37 +596,33 @@ function renderHistory() {
   emptyHistory.classList.add('hidden');
   historyTotal.classList.remove('hidden');
 
-  const total = state.history.reduce((s, h) => s + (Number(h.amount) || 0), 0);
+  const total = state.history.reduce((s, h) => s + h.amount, 0);
   historyTotalValue.textContent = formatPrice(total);
   historyCount.textContent = state.history.length + (state.history.length > 1 ? ' règlements' : ' règlement');
 
-  const groups = {};
+  const groups = new Map();
   state.history
     .slice()
     .sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt))
     .forEach(h => {
       const k = dateKey(h.paidAt);
-      if (!groups[k]) groups[k] = [];
-      groups[k].push(h);
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(h);
     });
 
-  const sortedKeys = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+  const sortedKeys = [...groups.keys()].sort((a, b) => b.localeCompare(a));
 
   sortedKeys.forEach(key => {
-    const items = groups[key];
-    const dayTotal = items.reduce((s, h) => s + (Number(h.amount) || 0), 0);
+    const items = groups.get(key);
+    const dayTotal = items.reduce((s, h) => s + h.amount, 0);
 
     const section = document.createElement('section');
 
     const header = document.createElement('div');
     header.className = 'flex items-baseline justify-between px-2 mb-2';
     header.innerHTML = `
-      <span class="text-xs font-black text-white/80 uppercase tracking-widest">
-        ${escapeHtml(formatDateLong(items[0].paidAt))}
-      </span>
-      <span class="num text-xs font-bold text-white/50">
-        ${items.length} · ${formatPrice(dayTotal)}
-      </span>
+      <span class="text-xs font-black text-white/80 uppercase tracking-widest">${formatDateLong(items[0].paidAt)}</span>
+      <span class="num text-xs font-bold text-white/50">${items.length} · ${formatPrice(dayTotal)}</span>
     `;
     section.appendChild(header);
 
@@ -572,64 +631,60 @@ function renderHistory() {
 
     items.forEach(h => {
       const row = document.createElement('div');
-      row.className = 'px-3 py-3 fade-in';
-
+      row.className = 'px-5 py-3.5 fade-in';
       row.innerHTML = `
         <div class="flex items-center gap-3">
           <div class="shrink-0 w-8 h-8 rounded-2xl flex items-center justify-center"
-               style="background: linear-gradient(135deg, rgba(16,185,129,.25), rgba(5,150,105,.15)); border:1px solid rgba(16,185,129,.35);">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3.2">
+               style="background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(5,150,105,.15));border:1px solid rgba(16,185,129,.35)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3.2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
             </svg>
           </div>
-
           <div class="min-w-0 flex-1">
-            <div class="text-base font-extrabold text-white truncate leading-tight">
-              ${escapeHtml(h.name)}
-              ${h.note ? `<span class="font-medium italic text-white/45"> — ${escapeHtml(h.note)}</span>` : ''}
-            </div>
-            <div class="text-[11px] text-white/45 mt-0.5 num">
+            <div class="text-[11px] text-white/45 num">
               Ajout ${formatDateShort(h.createdAt)} ${formatTime(h.createdAt)}
               <span class="text-white/20 mx-1">→</span>
               Réglé ${formatTime(h.paidAt)}
             </div>
           </div>
-
-          <div class="num shrink-0 text-base font-black text-white text-right min-w-[80px]">
-            ${formatPrice(h.amount)}
-          </div>
+          <div class="num shrink-0 text-lg font-black text-white text-right">${formatPrice(h.amount)}</div>
         </div>
       `;
       card.appendChild(row);
     });
 
     section.appendChild(card);
-    historyGroups.appendChild(section);
+    frag.appendChild(section);
   });
+
+  historyGroups.replaceChildren(frag);
 }
 
-/* =========================================================
+/* ============================================================
    MODALE CONFIRMATION
-   ========================================================= */
-const modalConfirm = document.getElementById('modalConfirm');
-const modalTitle = document.getElementById('modalTitle');
-const modalText = document.getElementById('modalText');
-const modalOk = document.getElementById('modalOk');
-const modalCancel = document.getElementById('modalCancel');
-
+   ============================================================ */
 let confirmCallback = null;
+let lastFocusedEl = null;
 
 function openConfirm(title, text, onOk) {
   modalTitle.textContent = title;
   modalText.textContent = text;
   confirmCallback = onOk;
+  lastFocusedEl = document.activeElement;
   modalConfirm.classList.remove('hidden');
   haptic('medium');
+  setTimeout(() => modalOk.focus(), 100);
 }
+
 function closeConfirm() {
   modalConfirm.classList.add('hidden');
   confirmCallback = null;
+  if (lastFocusedEl && document.contains(lastFocusedEl) && lastFocusedEl.focus) {
+    try { lastFocusedEl.focus({ preventScroll: true }); } catch(_) {}
+  }
+  lastFocusedEl = null;
 }
+
 modalCancel.addEventListener('click', () => { haptic('light'); closeConfirm(); });
 modalOk.addEventListener('click', () => {
   haptic('heavy');
@@ -638,114 +693,97 @@ modalOk.addEventListener('click', () => {
   if (cb) cb();
 });
 
-/* =========================================================
-   ASSISTANT D'AJOUT
-   ========================================================= */
-const modalWizard = document.getElementById('modalWizard');
-const step1 = document.getElementById('step1');
-const step2 = document.getElementById('step2');
-const step3 = document.getElementById('step3');
-const dot1 = document.getElementById('dot1');
-const dot2 = document.getElementById('dot2');
-const dot3 = document.getElementById('dot3');
-const inputName = document.getElementById('inputName');
-const inputAmount = document.getElementById('inputAmount');
-const inputNote = document.getElementById('inputNote');
-const wizNext = document.getElementById('wizNext');
-const wizCancel = document.getElementById('wizCancel');
-
-let wizardStep = 1;
+/* ============================================================
+   MODALE AJOUT — VERSION CORRIGÉE
+   ============================================================ */
+let wizardBusy = false;
+let wizardOpenRaf = null;
 
 function openWizard() {
-  wizardStep = 1;
-  inputName.value = '';
+  if (wizardBusy) return;
   inputAmount.value = '';
-  inputNote.value = '';
-  updateWizard();
   modalWizard.classList.remove('hidden');
   haptic('medium');
-  setTimeout(() => inputName.focus(), 120);
-}
-function closeWizard() {
-  modalWizard.classList.add('hidden');
-}
-function updateWizard() {
-  step1.classList.toggle('hidden', wizardStep !== 1);
-  step2.classList.toggle('hidden', wizardStep !== 2);
-  step3.classList.toggle('hidden', wizardStep !== 3);
-
-  const active = 'w-8 h-1.5 rounded-full transition-all';
-  const inactive = 'w-8 h-1.5 rounded-full bg-white/15 transition-all';
-  const grad = 'background:linear-gradient(90deg,#6366f1,#a855f7)';
-
-  dot1.className = wizardStep >= 1 ? active : inactive;
-  dot2.className = wizardStep >= 2 ? active : inactive;
-  dot3.className = wizardStep >= 3 ? active : inactive;
-  if (wizardStep >= 1) dot1.setAttribute('style', grad);
-  if (wizardStep >= 2) dot2.setAttribute('style', grad);
-  if (wizardStep >= 3) dot3.setAttribute('style', grad);
-
-  wizNext.textContent = wizardStep === 3 ? 'Terminer' : 'Suivant';
-
-  setTimeout(() => {
-    if (wizardStep === 1) inputName.focus();
-    if (wizardStep === 2) inputAmount.focus();
-    if (wizardStep === 3) inputNote.focus();
-  }, 80);
-}
-
-wizNext.addEventListener('click', () => {
-  if (wizardStep === 1) {
-    if (!inputName.value.trim()) { haptic('error'); showToast('Entre un nom'); return; }
-    wizardStep = 2;
-    updateWizard();
-  } else if (wizardStep === 2) {
-    const v = parseFloat(inputAmount.value.replace(',', '.'));
-    if (isNaN(v) || v <= 0) { haptic('error'); showToast('Entre un montant valide'); return; }
-    wizardStep = 3;
-    updateWizard();
-  } else {
-    const credit = {
-      id: uid(),
-      name: inputName.value.trim(),
-      amount: parseFloat(inputAmount.value.replace(',', '.')),
-      note: inputNote.value.trim(),
-      createdAt: new Date().toISOString(),
-      paidAt: null
-    };
-    state.credits.unshift(credit);
-    saveData();
-    renderCredits();
-    closeWizard();
-    haptic('success');
-    showToast('Crédit ajouté ✓');
-  }
-});
-wizCancel.addEventListener('click', () => { haptic('light'); closeWizard(); });
-
-[inputName, inputAmount, inputNote].forEach(inp => {
-  inp.addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); wizNext.click(); }
+  if (wizardOpenRaf) cancelAnimationFrame(wizardOpenRaf);
+  wizardOpenRaf = requestAnimationFrame(() => {
+    wizardOpenRaf = null;
+    try { inputAmount.focus({ preventScroll: true }); } catch(_) {}
   });
+}
+
+function closeWizard() {
+  try { inputAmount.blur(); } catch(_) {}
+  modalWizard.classList.add('hidden');
+  wizardBusy = false;
+}
+
+function submitAmount() {
+  if (wizardBusy) return;
+
+  const v = parseAmount(inputAmount.value);
+
+  if (isNaN(v) || v < CONFIG.minAmount) {
+    haptic('error');
+    showToast('Entre un montant valide');
+    try { inputAmount.focus({ preventScroll: true }); } catch(_) {}
+    return;
+  }
+  if (v > CONFIG.maxAmount) {
+    haptic('error');
+    showToast('Montant trop élevé');
+    try { inputAmount.focus({ preventScroll: true }); } catch(_) {}
+    return;
+  }
+
+  wizardBusy = true;
+
+  const credit = {
+    id: uid(),
+    amount: v,
+    createdAt: new Date().toISOString(),
+    paidAt: null
+  };
+  state.credits.unshift(credit);
+  saveData();
+
+  closeWizard();
+
+  renderCredits();
+  haptic('success');
+  showToast('Crédit ajouté ✓ ' + formatPrice(v));
+}
+
+wizardForm.addEventListener('submit', e => {
+  e.preventDefault();
+  submitAmount();
 });
 
-/* =========================================================
+wizCancel.addEventListener('click', e => {
+  e.preventDefault();
+  haptic('light');
+  closeWizard();
+});
+
+/* ============================================================
    NAVIGATION
-   ========================================================= */
-const historyView = document.getElementById('historyView');
-document.getElementById('btnHistory').addEventListener('click', () => {
+   ============================================================ */
+$('btnHistory').addEventListener('click', () => {
   renderHistory();
   historyView.classList.remove('hidden');
 });
-document.getElementById('btnBack').addEventListener('click', () => {
+$('btnBack').addEventListener('click', () => {
   historyView.classList.add('hidden');
 });
 
-/* =========================================================
+/* ============================================================
    EFFACER HISTORIQUE
-   ========================================================= */
-document.getElementById('btnClearHistory').addEventListener('click', () => {
-  if (state.history.length === 0) { haptic('error'); showToast('Historique déjà vide'); return; }
+   ============================================================ */
+$('btnClearHistory').addEventListener('click', () => {
+  if (state.history.length === 0) {
+    haptic('error');
+    showToast('Historique déjà vide');
+    return;
+  }
   openConfirm(
     'Effacer tout ?',
     "Tout l'historique sera supprimé définitivement.",
@@ -759,18 +797,99 @@ document.getElementById('btnClearHistory').addEventListener('click', () => {
   );
 });
 
-/* =========================================================
+/* ============================================================
    BOUTON AJOUTER
-   ========================================================= */
-document.getElementById('btnAdd').addEventListener('click', openWizard);
+   ============================================================ */
+$('btnAdd').addEventListener('click', openWizard);
 
-/* =========================================================
+/* ============================================================
+   BANDEAU TOTAL
+   ============================================================ */
+totalBanner.addEventListener('click', () => {
+  if (state.credits.length === 0) return;
+  const total = state.credits.reduce((s, c) => s + c.amount, 0);
+  const n = state.credits.length;
+  openConfirm(
+    'Tout régler ?',
+    `${n} crédit${n > 1 ? 's' : ''} pour un total de ${formatPrice(total)}.`,
+    payAll
+  );
+});
+
+/* ============================================================
+   CLAVIER MOBILE
+   ============================================================ */
+(function setupKeyboardHandling() {
+  const vv = window.visualViewport;
+  if (!vv) return;
+
+  let rafId = null;
+
+  function update() {
+    if (modalWizard.classList.contains('hidden')) return;
+
+    const keyboardHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+
+    if (keyboardHeight > CONFIG.keyboardThreshold) {
+      modalWizard.classList.add('kb-open');
+      const shift = Math.min(keyboardHeight / 2, 220);
+      wizardCard.style.transform = `translateY(-${shift}px)`;
+    } else {
+      modalWizard.classList.remove('kb-open');
+      wizardCard.style.transform = '';
+    }
+  }
+
+  function scheduleUpdate() {
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      rafId = null;
+      update();
+    });
+  }
+
+  vv.addEventListener('resize', scheduleUpdate);
+  vv.addEventListener('scroll', scheduleUpdate);
+  window.addEventListener('orientationchange', () => setTimeout(update, 250));
+
+  const observer = new MutationObserver(() => {
+    if (modalWizard.classList.contains('hidden')) {
+      modalWizard.classList.remove('kb-open');
+      wizardCard.style.transform = '';
+    } else {
+      setTimeout(update, 300);
+    }
+  });
+  observer.observe(modalWizard, { attributes: true, attributeFilter: ['class'] });
+})();
+
+/* ============================================================
+   RACCOURCIS CLAVIER
+   ============================================================ */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (!modalConfirm.classList.contains('hidden')) closeConfirm();
+    else if (!modalWizard.classList.contains('hidden')) closeWizard();
+    else if (!historyView.classList.contains('hidden')) historyView.classList.add('hidden');
+  }
+});
+
+/* ============================================================
+   SÉCURITÉ : blur au passage en arrière-plan
+   ============================================================ */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && !modalWizard.classList.contains('hidden')) {
+    try { inputAmount.blur(); } catch(_) {}
+  }
+});
+
+/* ============================================================
    SERVICE WORKER
-   ========================================================= */
+   ============================================================ */
 if ('serviceWorker' in navigator) {
   const swCode = `
-    const CACHE = 'mesCredits-v7';
-    const ASSETS = ['./', './index.html', 'https://cdn.tailwindcss.com'];
+    const CACHE = 'mesCredits-v11';
+    const ASSETS = ['./', './index.html', 'https://cdn.tailwindcss.com', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap'];
     self.addEventListener('install', e => {
       e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS).catch(()=>{})));
       self.skipWaiting();
@@ -786,7 +905,7 @@ if ('serviceWorker' in navigator) {
       e.respondWith(
         caches.match(e.request).then(cached => {
           const fetchPromise = fetch(e.request).then(res => {
-            if (res && res.status === 200 && res.type === 'basic') {
+            if (res && res.status === 200 && (res.type === 'basic' || res.type === 'cors')) {
               const clone = res.clone();
               caches.open(CACHE).then(c => c.put(e.request, clone));
             }
@@ -801,16 +920,15 @@ if ('serviceWorker' in navigator) {
     const blob = new Blob([swCode], { type: 'application/javascript' });
     const url = URL.createObjectURL(blob);
     navigator.serviceWorker.register(url).catch(() => {});
-  } catch(e) {}
+  } catch(_) {}
 }
 
-/* =========================================================
+/* ============================================================
    INIT
-   ========================================================= */
+   ============================================================ */
+bindHaptics();
 renderCredits();
 renderHistory();
 </script>
-
-<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));}</script>
 </body>
 </html>
