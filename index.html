@@ -159,7 +159,10 @@
     box-shadow: 0 0 0 4px rgba(168,85,247,.18);
   }
 </style>
-</head>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4b6cb7">
+<link rel="apple-touch-icon" href="icon.png"></head>
 <body class="min-h-screen text-white">
 
 <div class="bg-canvas"></div>
@@ -807,5 +810,7 @@ if ('serviceWorker' in navigator) {
 renderCredits();
 renderHistory();
 </script>
+
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));}</script>
 </body>
 </html>
