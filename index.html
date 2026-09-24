@@ -7,996 +7,1013 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Mes Crédits</title>
+
 <style>
 /* ============================================================
    BASE
    ============================================================ */
-:root{
-  /* Palette : ardoise profonde + émeraude + cyan + ambre */
-  --bg:#0a0f1c;
-  --bg-soft:#0f1626;
-  --surface:rgba(255,255,255,.045);
-  --surface-2:rgba(255,255,255,.07);
-  --surface-3:rgba(255,255,255,.10);
-  --border:rgba(255,255,255,.08);
-  --border-strong:rgba(255,255,255,.14);
+:root {
+  --bg: #0a0f1c;
+  --surface: rgba(255,255,255,.045);
+  --surface-2: rgba(255,255,255,.07);
+  --border: rgba(255,255,255,.08);
+  --border-strong: rgba(255,255,255,.14);
 
-  --emerald:#10b981;
-  --emerald-soft:#34d399;
-  --cyan:#22d3ee;
-  --cyan-soft:#67e8f9;
-  --amber:#fbbf24;
-  --rose:#fb7185;
-  --rose-deep:#e11d48;
+  --emerald-soft: #34d399;
+  --cyan: #22d3ee;
+  --ice: #f0fdfa;
 
-  --text:#f1f5f9;
-  --text-soft:rgba(241,245,249,.72);
-  --text-mute:rgba(241,245,249,.48);
-  --text-faint:rgba(241,245,249,.32);
+  --text: #f1f5f9;
+  --text-soft: rgba(241,245,249,.72);
+  --text-mute: rgba(241,245,249,.48);
+  --text-faint: rgba(241,245,249,.32);
 }
 
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
-body{
-  margin:0;
-  padding:0;
-  min-height:100%;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  -webkit-font-smoothing:antialiased;
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-body{
-  min-height:100vh;
-  overflow-x:hidden;
-  letter-spacing:-.01em;
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  letter-spacing: -.01em;
 }
 
 button,
-input{
-  font-family:inherit;
+input {
+  font-family: inherit;
 }
 
-button{
-  border:0;
-  cursor:pointer;
-  -webkit-user-select:none;
-  user-select:none;
+button {
+  border: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.hidden {
+  display: none !important;
 }
 
 /* ============================================================
-   BACKGROUND — subtil, élégant, sans gros dégradés flashy
+   FOND (dégradés + grain)
    ============================================================ */
-.background{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body::before {
   background:
-    radial-gradient(900px 600px at 12% -8%,rgba(16,185,129,.10),transparent 65%),
-    radial-gradient(900px 600px at 92% 8%,rgba(34,211,238,.075),transparent 65%),
-    radial-gradient(700px 500px at 50% 110%,rgba(251,191,36,.045),transparent 70%),
-    linear-gradient(180deg,#0a0f1c 0%,#0b1220 60%,#0a0f1c 100%);
+    radial-gradient(900px 600px at 12% -8%, rgba(16,185,129,.10), transparent 65%),
+    radial-gradient(900px 600px at 92% 8%, rgba(34,211,238,.075), transparent 65%),
+    radial-gradient(700px 500px at 50% 110%, rgba(251,191,36,.045), transparent 70%),
+    linear-gradient(180deg, #0a0f1c 0%, #0b1220 60%, #0a0f1c 100%);
 }
 
-/* Grain subtil */
-.background::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:24px 24px;
-  mask-image:radial-gradient(ellipse at center,#000 30%,transparent 78%);
-  -webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 78%);
+body::after {
+  background-image: radial-gradient(rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 78%);
+}
+
+/* Reflet lumineux partagé */
+.logo::after,
+.btn-add::after,
+.total-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 100% at var(--gx, 50%) 0%,
+    rgba(255,255,255,var(--ga, .28)),
+    transparent var(--gs, 55%)
+  );
 }
 
 /* ============================================================
-   APP
+   ACCUEIL
    ============================================================ */
-#app{
-  position:relative;
-  z-index:1;
-  width:100%;
-  max-width:620px;
-  margin:0 auto;
-  padding:calc(20px + env(safe-area-inset-top)) 18px 170px 18px;
+#app {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: calc(20px + env(safe-area-inset-top)) 18px 170px;
 }
 
-/* ============================================================
-   HEADER
-   ============================================================ */
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  margin-bottom:22px;
+.header,
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  min-width:0;
+.header {
+  margin-bottom: 22px;
 }
 
-.logo{
-  width:50px;
-  height:50px;
-  flex:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:16px;
-  background:linear-gradient(140deg,#0f766e,#0891b2);
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.logo,
+.add-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ecfeff;
+  background: linear-gradient(140deg, #0f766e, #0891b2);
+}
+
+.logo {
+  --gx: 20%;
+  width: 50px;
+  height: 50px;
+  flex: none;
+  overflow: hidden;
+  border-radius: 16px;
   box-shadow:
     0 10px 28px -8px rgba(6,182,212,.35),
     inset 0 1px 0 rgba(255,255,255,.18),
     inset 0 -1px 0 rgba(0,0,0,.2);
-  position:relative;
-  overflow:hidden;
 }
 
-.logo::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(120% 100% at 20% 0%,rgba(255,255,255,.28),transparent 55%);
+.logo span {
+  position: relative;
+  z-index: 1;
+  font-size: 24px;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0,0,0,.25);
 }
 
-.logo span{
-  font-size:24px;
-  font-weight:800;
-  color:#ecfeff;
-  position:relative;
-  z-index:1;
-  text-shadow:0 1px 2px rgba(0,0,0,.25);
+.brand-title,
+.history-title,
+.modal-title,
+.session-modal-title {
+  margin: 0;
+  font-weight: 800;
+  color: var(--ice);
+  letter-spacing: -.02em;
 }
 
-.brand-title{
-  margin:0;
-  font-size:23px;
-  line-height:1.05;
-  font-weight:800;
-  color:#f0fdfa;
-  letter-spacing:-.02em;
+.brand-title {
+  font-size: 23px;
+  line-height: 1.05;
 }
 
-.brand-subtitle{
-  margin-top:4px;
-  color:var(--text-mute);
-  font-size:11.5px;
-  letter-spacing:.01em;
+.brand-subtitle {
+  margin-top: 4px;
+  color: var(--text-mute);
+  font-size: 11.5px;
+  letter-spacing: .01em;
 }
 
 /* ============================================================
-   BUTTONS
+   BOUTONS
    ============================================================ */
-.btn{
-  min-height:48px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  border-radius:14px;
-  color:#fff;
-  font-size:14px;
-  font-weight:700;
-  transition:transform .12s ease,background .18s ease,border-color .18s ease;
-  letter-spacing:-.005em;
+.btn {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.005em;
+  transition: transform .12s ease, background .18s ease, border-color .18s ease;
 }
 
-.btn:active{
-  transform:scale(.97);
+.btn:active {
+  transform: scale(.97);
 }
 
-.btn-history{
-  padding:0 14px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  color:var(--text-soft);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
+.btn-history,
+.btn-secondary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-.btn-history:active{
-  background:var(--surface-2);
+.btn-history:active,
+.btn-secondary:active {
+  background: var(--surface-2);
 }
 
-.btn-add{
-  width:100%;
-  margin-bottom:18px;
-  padding:18px;
-  border-radius:20px;
-  font-size:16px;
-  font-weight:800;
-  color:#052e2b;
-  background:linear-gradient(180deg,#34d399,#10b981);
-  border:1px solid rgba(255,255,255,.18);
-  box-shadow:
-    0 14px 34px -12px rgba(16,185,129,.55),
-    inset 0 1px 0 rgba(255,255,255,.35),
-    inset 0 -1px 0 rgba(0,0,0,.1);
-  position:relative;
-  overflow:hidden;
+.btn-history {
+  padding: 0 14px;
 }
 
-.btn-add::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(120% 100% at 50% 0%,rgba(255,255,255,.28),transparent 55%);
-  pointer-events:none;
+.btn-secondary {
+  flex: 1;
+  border-color: var(--border-strong);
+  color: var(--text);
 }
 
-.btn-add:active{
-  transform:scale(.985);
-  filter:brightness(.96);
-}
-
-.btn-primary{
-  flex:1;
-  background:linear-gradient(180deg,#22d3ee,#0891b2);
-  color:#042f2e;
-  border:1px solid rgba(255,255,255,.18);
+.btn-primary {
+  flex: 1;
+  background: linear-gradient(180deg, #22d3ee, #0891b2);
+  color: #042f2e;
+  border: 1px solid rgba(255,255,255,.18);
   box-shadow:
     0 10px 24px -10px rgba(34,211,238,.5),
     inset 0 1px 0 rgba(255,255,255,.35);
 }
 
-.btn-secondary{
-  flex:1;
-  background:var(--surface);
-  border:1px solid var(--border-strong);
-  color:var(--text);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-
-.btn-secondary:active{
-  background:var(--surface-2);
-}
-
-.btn-danger{
-  background:linear-gradient(180deg,#fb7185,#e11d48);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.15);
+.btn-danger {
+  padding: 0 14px;
+  background: linear-gradient(180deg, #fb7185, #e11d48);
+  border: 1px solid rgba(255,255,255,.15);
   box-shadow:
     0 10px 24px -10px rgba(225,29,72,.5),
     inset 0 1px 0 rgba(255,255,255,.22);
-  padding:0 14px;
+}
+
+.btn-add {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 18px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #052e2b;
+  background: linear-gradient(180deg, #34d399, #10b981);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow:
+    0 14px 34px -12px rgba(16,185,129,.55),
+    inset 0 1px 0 rgba(255,255,255,.35),
+    inset 0 -1px 0 rgba(0,0,0,.1);
+}
+
+.btn-add:active {
+  transform: scale(.985);
+  filter: brightness(.96);
 }
 
 /* ============================================================
-   CREDITS
+   LISTES
    ============================================================ */
-#listCredits{
-  list-style:none;
-  padding:0;
-  margin:0;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+#listCredits,
+#sessionList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.credit{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:16px 18px;
-  border-radius:20px;
-  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.025));
-  border:1px solid var(--border);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+#listCredits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.credit,
+.session {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+  border: 1px solid var(--border);
   box-shadow:
     0 12px 30px -18px rgba(0,0,0,.6),
     inset 0 1px 0 rgba(255,255,255,.06);
-  animation:appear .25s ease-out;
+  animation: appear .25s ease-out;
 }
 
-.credit-icon{
-  width:42px;
-  height:42px;
-  flex:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:14px;
-  color:#fcd34d;
-  background:rgba(251,191,36,.10);
-  border:1px solid rgba(251,191,36,.22);
-  font-size:17px;
-  font-weight:800;
+.credit,
+.session,
+.history-total {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
-.credit-info{
-  flex:1;
-  min-width:0;
+.ico {
+  width: 42px;
+  height: 42px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 800;
 }
 
-.credit-date{
-  color:var(--text-faint);
-  font-size:11px;
-  letter-spacing:.01em;
+.ico.sm {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  font-size: 14px;
 }
 
-.credit-amount{
-  flex:none;
-  font-size:22px;
-  font-weight:800;
-  color:#f0fdfa;
-  letter-spacing:-.02em;
-  font-variant-numeric:tabular-nums;
+.ico.amber {
+  color: #fcd34d;
+  background: rgba(251,191,36,.10);
+  border: 1px solid rgba(251,191,36,.22);
+}
+
+.ico.green {
+  color: var(--emerald-soft);
+  background: rgba(16,185,129,.10);
+  border: 1px solid rgba(16,185,129,.22);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.sub {
+  color: var(--text-faint);
+  font-size: 11px;
+  letter-spacing: .01em;
+}
+
+.amt {
+  flex: none;
+  font-weight: 800;
+  color: var(--ice);
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.credit .amt {
+  font-size: 22px;
+}
+
+#emptyMsg,
+.empty-history {
+  text-align: center;
+  margin-top: 80px;
+  color: var(--text-mute);
+  font-size: 16px;
+}
+
+#emptyMsg {
+  line-height: 1.75;
+}
+
+#emptyMsg strong {
+  color: var(--emerald-soft);
+  font-weight: 700;
 }
 
 /* ============================================================
-   EMPTY
+   BANDEAU TOTAL
    ============================================================ */
-#emptyMsg{
-  text-align:center;
-  margin-top:80px;
-  color:var(--text-mute);
-  font-size:16px;
-  line-height:1.75;
-  letter-spacing:-.005em;
+#totalBanner {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 20;
+  width: min(620px, 100%);
+  padding: 0 16px;
+  transform: translateX(-50%);
+  background: none;
 }
 
-#emptyMsg strong{
-  color:var(--emerald-soft);
-  font-weight:700;
-}
-
-/* ============================================================
-   TOTAL BANNER
-   ============================================================ */
-#totalBanner{
-  position:fixed;
-  left:50%;
-  bottom:calc(16px + env(safe-area-inset-bottom));
-  z-index:20;
-  width:min(620px,100%);
-  padding:0 16px;
-  transform:translateX(-50%);
-  background:none;
-}
-
-.total-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  padding:18px 20px;
-  border-radius:22px;
-  background:linear-gradient(160deg,rgba(225,29,72,.94),rgba(190,18,60,.94));
-  border:1px solid rgba(255,255,255,.14);
-  backdrop-filter:blur(20px) saturate(160%);
-  -webkit-backdrop-filter:blur(20px) saturate(160%);
+.total-inner {
+  --ga: .18;
+  --gs: 60%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 18px 20px;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(225,29,72,.94), rgba(190,18,60,.94));
+  border: 1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
   box-shadow:
     0 22px 45px -18px rgba(225,29,72,.55),
     inset 0 1px 0 rgba(255,255,255,.22),
     inset 0 -1px 0 rgba(0,0,0,.15);
-  position:relative;
-  overflow:hidden;
 }
 
-.total-inner::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(120% 100% at 50% 0%,rgba(255,255,255,.18),transparent 60%);
-  pointer-events:none;
+.total-label {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  color: rgba(255,255,255,.85);
 }
 
-.total-label{
-  font-size:10.5px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:1.6px;
-  color:rgba(255,255,255,.85);
+.total-count {
+  margin-top: 5px;
+  font-size: 11.5px;
+  color: rgba(255,255,255,.72);
 }
 
-.total-count{
-  margin-top:5px;
-  font-size:11.5px;
-  color:rgba(255,255,255,.72);
+.total-hint {
+  margin-top: 4px;
+  font-size: 9.5px;
+  font-style: italic;
+  color: rgba(255,255,255,.55);
 }
 
-.total-hint{
-  margin-top:4px;
-  font-size:9.5px;
-  color:rgba(255,255,255,.55);
-  font-style:italic;
-}
-
-.total-value{
-  font-size:30px;
-  font-weight:800;
-  white-space:nowrap;
-  color:#fff;
-  letter-spacing:-.03em;
-  font-variant-numeric:tabular-nums;
-  text-shadow:0 2px 6px rgba(0,0,0,.2);
+.total-value {
+  font-size: 30px;
+  font-weight: 800;
+  white-space: nowrap;
+  color: #fff;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 6px rgba(0,0,0,.2);
 }
 
 /* ============================================================
-   FULLSCREEN VIEWS
+   HISTORIQUE
    ============================================================ */
-.fullscreen{
-  position:fixed;
-  inset:0;
-  z-index:30;
-  overflow-y:auto;
-  background:var(--bg);
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  overflow-y: auto;
+  background: var(--bg);
 }
 
-.view-inner{
-  width:100%;
-  max-width:620px;
-  min-height:100%;
-  margin:auto;
-  padding:calc(20px + env(safe-area-inset-top)) 18px calc(40px + env(safe-area-inset-bottom));
+.view-inner {
+  width: 100%;
+  max-width: 620px;
+  min-height: 100%;
+  margin: auto;
+  padding: calc(20px + env(safe-area-inset-top)) 18px calc(40px + env(safe-area-inset-bottom));
+}
+
+/* En-tête d'historique : 3 boutons empilables */
+.history-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.history-title {
+  font-size: 20px;
+  text-align: center;
+}
+
+/* Groupe Export / Import / Effacer à droite */
+.history-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.history-actions .btn {
+  min-height: 40px;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: 12px;
+}
+
+.btn-icon {
+  min-width: 40px;
+  padding: 0 10px !important;
+}
+
+.btn-icon svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 2.2;
+}
+
+.history-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  margin-bottom: 22px;
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(16,185,129,.08), rgba(34,211,238,.04));
+  border: 1px solid rgba(16,185,129,.15);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.history-total-label {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--text-soft);
+}
+
+.history-total-count {
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.history-total-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--emerald-soft);
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ============================================================
-   HISTORY
+   GROUPES PAR MOIS (accordéon)
    ============================================================ */
-.history-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  margin-bottom:24px;
+.month {
+  margin-bottom: 16px;
 }
 
-.history-title{
-  font-size:20px;
-  font-weight:800;
-  color:#f0fdfa;
-  letter-spacing:-.02em;
+.month-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.005em;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform .12s ease, border-color .18s ease, background .18s ease;
 }
 
-.history-total{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:18px 20px;
-  margin-bottom:22px;
-  border-radius:20px;
-  background:linear-gradient(160deg,rgba(16,185,129,.08),rgba(34,211,238,.04));
-  border:1px solid rgba(16,185,129,.15);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+.month-header:active {
+  transform: scale(.985);
+  border-color: rgba(34,211,238,.28);
 }
 
-.history-total-label{
-  font-size:10.5px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:1.4px;
-  color:var(--text-soft);
+.month-header .title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ice);
 }
 
-.history-total-count{
-  margin-top:5px;
-  font-size:11px;
-  color:var(--text-faint);
+.month-header .chev {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--text-faint);
+  transition: transform .25s cubic-bezier(.2,.9,.3,1.3);
 }
 
-.history-total-value{
-  font-size:24px;
-  font-weight:800;
-  color:var(--emerald-soft);
-  letter-spacing:-.03em;
-  font-variant-numeric:tabular-nums;
+.month.open .month-header .chev {
+  transform: rotate(90deg);
+  color: var(--cyan);
+}
+
+.month-header .summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.month-header .summary strong {
+  color: var(--emerald-soft);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.month-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .3s cubic-bezier(.2,.9,.3,1.05);
+  margin-top: 0;
+}
+
+.month.open .month-body {
+  grid-template-rows: 1fr;
+  margin-top: 8px;
+}
+
+.month-body-inner {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.session {
+  width: 100%;
+  text-align: left;
+  color: var(--text);
+  transition: transform .12s ease, border-color .18s ease, background .18s ease;
+}
+
+.session:active {
+  transform: scale(.985);
+  border-color: rgba(34,211,238,.35);
+  background: linear-gradient(160deg, rgba(34,211,238,.08), rgba(255,255,255,.03));
+}
+
+.session-date {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ice);
+  line-height: 1.25;
+  letter-spacing: -.01em;
+}
+
+.session-time {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--text-mute);
+}
+
+.session-count {
+  margin-top: 4px;
+  font-size: 10.5px;
+  color: var(--text-faint);
+  letter-spacing: .02em;
+}
+
+.session .amt {
+  font-size: 19px;
+  text-align: right;
+}
+
+.session-chevron {
+  flex: none;
+  margin-left: 2px;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--text-faint);
+  transition: color .18s ease;
+}
+
+.session:active .session-chevron {
+  color: var(--cyan);
 }
 
 /* ============================================================
-   SESSIONS DE RÈGLEMENT
+   MODALES
    ============================================================ */
-#sessionList{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(6,10,20,.72);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
 }
 
-.session{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  padding:16px 18px;
-  border-radius:20px;
-  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.025));
-  border:1px solid var(--border);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  box-shadow:
-    0 12px 30px -18px rgba(0,0,0,.6),
-    inset 0 1px 0 rgba(255,255,255,.06);
-  text-align:left;
-  width:100%;
-  color:var(--text);
-  font-family:inherit;
-  transition:transform .12s ease,border-color .18s ease,background .18s ease;
-  animation:appear .25s ease-out;
+.modal.open {
+  display: flex;
+  animation: fade .18s ease-out;
 }
 
-.session:active{
-  transform:scale(.985);
-  border-color:rgba(34,211,238,.35);
-  background:linear-gradient(160deg,rgba(34,211,238,.08),rgba(255,255,255,.03));
-}
-
-.session-icon{
-  width:42px;
-  height:42px;
-  flex:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:14px;
-  color:var(--emerald-soft);
-  background:rgba(16,185,129,.10);
-  border:1px solid rgba(16,185,129,.22);
-  font-size:17px;
-  font-weight:800;
-}
-
-.session-info{
-  flex:1;
-  min-width:0;
-}
-
-.session-date{
-  font-size:14px;
-  font-weight:700;
-  color:#f0fdfa;
-  line-height:1.25;
-  letter-spacing:-.01em;
-}
-
-.session-time{
-  margin-top:3px;
-  font-size:11px;
-  color:var(--text-mute);
-}
-
-.session-count{
-  margin-top:4px;
-  font-size:10.5px;
-  color:var(--text-faint);
-  letter-spacing:.02em;
-}
-
-.session-amount{
-  flex:none;
-  font-size:19px;
-  font-weight:800;
-  color:#f0fdfa;
-  text-align:right;
-  letter-spacing:-.02em;
-  font-variant-numeric:tabular-nums;
-}
-
-.session-chevron{
-  flex:none;
-  font-size:20px;
-  color:var(--text-faint);
-  margin-left:2px;
-  line-height:1;
-  transition:color .18s ease;
-}
-
-.session:active .session-chevron{
-  color:var(--cyan);
-}
-
-.empty-history{
-  text-align:center;
-  margin-top:80px;
-  color:var(--text-mute);
-  font-size:16px;
-}
-
-/* ============================================================
-   MODALES — glassmorphisme raffiné
-   ============================================================ */
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:rgba(6,10,20,.72);
-  backdrop-filter:blur(8px) saturate(140%);
-  -webkit-backdrop-filter:blur(8px) saturate(140%);
-}
-
-.modal.open{
-  display:flex;
-  animation:modalFade .18s ease-out;
-}
-
-.modal-card{
-  width:100%;
-  max-width:400px;
-  max-height:calc(100vh - 60px);
-  display:flex;
-  flex-direction:column;
-  padding:24px;
-  border-radius:24px;
-  background:linear-gradient(165deg,rgba(20,28,45,.96),rgba(12,18,32,.96));
-  border:1px solid var(--border-strong);
-  backdrop-filter:blur(30px) saturate(160%);
-  -webkit-backdrop-filter:blur(30px) saturate(160%);
+.modal-card {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 400px;
+  max-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-radius: 24px;
+  background: linear-gradient(165deg, rgba(20,28,45,.96), rgba(12,18,32,.96));
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
   box-shadow:
     0 40px 80px -30px rgba(0,0,0,.8),
     inset 0 1px 0 rgba(255,255,255,.08),
     inset 0 -1px 0 rgba(0,0,0,.3);
-  animation:modalIn .26s cubic-bezier(.2,.9,.3,1.2);
-  position:relative;
-  overflow:hidden;
+  animation: pop .26s cubic-bezier(.2,.9,.3,1.2);
 }
 
-.modal-card::before{
-  content:"";
-  position:absolute;
-  top:-60%;
-  left:-20%;
-  right:-20%;
-  height:60%;
-  background:radial-gradient(closest-side,rgba(34,211,238,.10),transparent);
-  pointer-events:none;
+.modal-card::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -20%;
+  right: -20%;
+  height: 60%;
+  background: radial-gradient(closest-side, rgba(34,211,238,.10), transparent);
+  pointer-events: none;
 }
 
-/* ============================================================
-   ADD MODAL
-   ============================================================ */
-.add-icon{
-  width:56px;
-  height:56px;
-  margin:0 auto 18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:18px;
-  background:linear-gradient(140deg,#0f766e,#0891b2);
-  color:#ecfeff;
-  font-size:26px;
-  font-weight:400;
+.modal-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.modal-title {
+  text-align: center;
+  font-size: 23px;
+}
+
+.modal-subtitle {
+  margin: 7px 0 20px;
+  text-align: center;
+  color: var(--text-mute);
+  font-size: 13px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+/* --- Ajout --- */
+.add-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+  border-radius: 18px;
+  font-size: 26px;
   box-shadow:
     0 12px 30px -10px rgba(6,182,212,.5),
     inset 0 1px 0 rgba(255,255,255,.25);
-  position:relative;
-  z-index:1;
 }
 
-.modal-title{
-  margin:0;
-  text-align:center;
-  font-size:23px;
-  font-weight:800;
-  color:#f0fdfa;
-  letter-spacing:-.02em;
-  position:relative;
-  z-index:1;
+.amount-wrap {
+  position: relative;
+  margin-bottom: 18px;
 }
 
-.modal-subtitle{
-  margin:7px 0 20px;
-  text-align:center;
-  color:var(--text-mute);
-  font-size:13px;
-  position:relative;
-  z-index:1;
+.amount-input {
+  display: block;
+  width: 100%;
+  height: 76px;
+  padding: 0 54px 0 18px;
+  border-radius: 18px;
+  border: 1.5px solid var(--border-strong);
+  outline: none;
+  background: rgba(6,10,20,.6);
+  color: #fff;
+  font-size: 34px;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
-.amount-wrap{
-  position:relative;
-  margin-bottom:18px;
-  z-index:1;
+.amount-input::placeholder {
+  color: var(--text-faint);
+  font-weight: 700;
 }
 
-.amount-input{
-  display:block;
-  width:100%;
-  height:76px;
-  padding:0 54px 0 18px;
-  border-radius:18px;
-  border:1.5px solid var(--border-strong);
-  outline:none;
-  background:rgba(6,10,20,.6);
-  color:#fff;
-  font-size:34px;
-  font-weight:800;
-  text-align:center;
-  letter-spacing:-.02em;
-  font-variant-numeric:tabular-nums;
-  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
-}
-
-.amount-input::placeholder{
-  color:var(--text-faint);
-  font-weight:700;
-}
-
-.amount-input:focus{
-  border-color:rgba(34,211,238,.55);
-  background:rgba(6,10,20,.85);
+.amount-input:focus {
+  border-color: rgba(34,211,238,.55);
+  background: rgba(6,10,20,.85);
   box-shadow:
     0 0 0 4px rgba(34,211,238,.12),
     inset 0 1px 0 rgba(255,255,255,.05);
 }
 
-.amount-euro{
-  position:absolute;
-  right:20px;
-  top:50%;
-  transform:translateY(-50%);
-  color:var(--text-mute);
-  font-size:22px;
-  font-weight:700;
-  pointer-events:none;
+.amount-euro {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-mute);
+  font-size: 22px;
+  font-weight: 700;
+  pointer-events: none;
 }
 
-.modal-buttons{
-  display:flex;
-  gap:10px;
-  position:relative;
-  z-index:1;
+/* --- Confirmation --- */
+.confirm-text {
+  margin: 10px 0 24px;
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 14.5px;
+  line-height: 1.55;
 }
 
-/* ============================================================
-   CONFIRM
-   ============================================================ */
-.confirm-text{
-  margin:10px 0 24px;
-  text-align:center;
-  color:var(--text-soft);
-  font-size:14.5px;
-  line-height:1.55;
-  position:relative;
-  z-index:1;
+/* --- Détail d'un règlement --- */
+.session-modal-header {
+  margin-bottom: 18px;
+  text-align: center;
 }
 
-/* ============================================================
-   SESSION DETAIL MODAL
-   ============================================================ */
-.session-modal-header{
-  margin-bottom:18px;
-  text-align:center;
-  position:relative;
-  z-index:1;
+.session-modal-icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  color: var(--emerald-soft);
+  background: linear-gradient(140deg, rgba(16,185,129,.18), rgba(16,185,129,.06));
+  border: 1px solid rgba(16,185,129,.30);
+  font-size: 24px;
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
 }
 
-.session-modal-icon{
-  width:54px;
-  height:54px;
-  margin:0 auto 12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:17px;
-  color:var(--emerald-soft);
-  background:linear-gradient(140deg,rgba(16,185,129,.18),rgba(16,185,129,.06));
-  border:1px solid rgba(16,185,129,.30);
-  font-size:24px;
-  font-weight:800;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
+.session-modal-title {
+  font-size: 19px;
 }
 
-.session-modal-title{
-  margin:0;
-  font-size:19px;
-  font-weight:800;
-  color:#f0fdfa;
-  letter-spacing:-.02em;
+.session-modal-subtitle {
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--text-mute);
 }
 
-.session-modal-subtitle{
-  margin-top:5px;
-  font-size:12px;
-  color:var(--text-mute);
+.session-modal-total {
+  margin-top: 12px;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--emerald-soft);
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
 }
 
-.session-modal-total{
-  margin-top:12px;
-  font-size:26px;
-  font-weight:800;
-  color:var(--emerald-soft);
-  letter-spacing:-.03em;
-  font-variant-numeric:tabular-nums;
+.session-modal-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 42vh;
+  margin: 0 -6px 18px;
+  padding: 0 6px;
 }
 
-.session-modal-list{
-  flex:1;
-  overflow-y:auto;
-  margin:0 -6px 18px;
-  padding:0 6px;
-  max-height:42vh;
-  position:relative;
-  z-index:1;
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  margin-bottom: 8px;
+  border-radius: 15px;
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(255,255,255,.06);
 }
 
-.session-modal-item{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px 15px;
-  border-radius:15px;
-  background:rgba(255,255,255,.035);
-  border:1px solid rgba(255,255,255,.06);
-  margin-bottom:8px;
-  transition:background .18s ease;
+.item:last-child {
+  margin-bottom: 0;
 }
 
-.session-modal-item:hover{
-  background:rgba(255,255,255,.05);
+.item .amt {
+  font-size: 16px;
 }
 
-.session-modal-item:last-child{
-  margin-bottom:0;
+.session-modal-list::-webkit-scrollbar {
+  width: 6px;
 }
 
-.session-modal-item-icon{
-  width:34px;
-  height:34px;
-  flex:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:12px;
-  color:#fcd34d;
-  background:rgba(251,191,36,.10);
-  border:1px solid rgba(251,191,36,.20);
-  font-size:14px;
-  font-weight:800;
+.session-modal-list::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.12);
+  border-radius: 6px;
 }
 
-.session-modal-item-info{
-  flex:1;
-  min-width:0;
-}
-
-.session-modal-item-date{
-  font-size:10.5px;
-  color:var(--text-faint);
-  letter-spacing:.01em;
-}
-
-.session-modal-item-amount{
-  font-size:16px;
-  font-weight:800;
-  flex:none;
-  color:#f0fdfa;
-  letter-spacing:-.01em;
-  font-variant-numeric:tabular-nums;
+.session-modal-list::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 /* ============================================================
    TOAST
    ============================================================ */
-#toast{
-  position:fixed;
-  left:50%;
-  bottom:120px;
-  z-index:200;
-  transform:translateX(-50%) translateY(8px);
-  display:none;
-  max-width:calc(100% - 32px);
-  padding:14px 22px;
-  border-radius:16px;
-  background:linear-gradient(160deg,rgba(20,28,45,.96),rgba(12,18,32,.96));
-  border:1px solid var(--border-strong);
-  backdrop-filter:blur(20px) saturate(160%);
-  -webkit-backdrop-filter:blur(20px) saturate(160%);
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: 120px;
+  z-index: 200;
+  display: none;
+  max-width: calc(100% - 32px);
+  padding: 14px 22px;
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(20,28,45,.96), rgba(12,18,32,.96));
+  border: 1px solid var(--border-strong);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
   box-shadow:
     0 20px 45px -15px rgba(0,0,0,.7),
     inset 0 1px 0 rgba(255,255,255,.08);
-  color:#f0fdfa;
-  font-size:14px;
-  font-weight:700;
-  text-align:center;
-  letter-spacing:-.005em;
-  opacity:0;
-  transition:opacity .2s ease,transform .2s ease;
+  color: var(--ice);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -.005em;
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+  transition: opacity .2s ease, transform .2s ease;
 }
 
-#toast.show{
-  display:block;
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+#toast.show {
+  display: block;
+  opacity: 1;
+  transform: translateX(-50%);
 }
 
 /* ============================================================
-   UTILS
+   ANIMATIONS
    ============================================================ */
-.hidden{
-  display:none!important;
+@keyframes appear {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
 }
 
-@keyframes appear{
-  from{
-    opacity:0;
-    transform:translateY(6px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
+@keyframes fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-@keyframes modalFade{
-  from{opacity:0;}
-  to{opacity:1;}
+@keyframes pop {
+  from { opacity: 0; transform: scale(.94) translateY(8px); }
+  to   { opacity: 1; transform: none; }
 }
 
-@keyframes modalIn{
-  from{
-    opacity:0;
-    transform:scale(.94) translateY(8px);
-  }
-  to{
-    opacity:1;
-    transform:none;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
   }
 }
 
-/* Scrollbar discrète */
-.session-modal-list::-webkit-scrollbar{
-  width:6px;
-}
-.session-modal-list::-webkit-scrollbar-thumb{
-  background:rgba(255,255,255,.12);
-  border-radius:6px;
-}
-.session-modal-list::-webkit-scrollbar-track{
-  background:transparent;
-}
+/* ============================================================
+   PETITS ÉCRANS
+   ============================================================ */
+@media (max-width: 500px) {
+  .brand-title { font-size: 20px; }
+  .brand-subtitle { font-size: 10.5px; }
+  .btn-history { padding: 0 11px; font-size: 12px; }
+  .total-value { font-size: 25px; }
 
-@media(max-width:500px){
-  .brand-title{
-    font-size:20px;
+  .modal {
+    align-items: flex-start;
+    padding-top: calc(48px + env(safe-area-inset-top));
   }
-  .brand-subtitle{
-    font-size:10.5px;
+
+  .modal-card {
+    max-width: none;
+    padding: 22px;
   }
-  .btn-history{
-    padding:0 11px;
-    font-size:12px;
+
+  .amount-input {
+    height: 70px;
+    font-size: 30px;
   }
-  .total-value{
-    font-size:25px;
+
+  /* En-tête d'historique : passe en 2 lignes sur petit écran */
+  .history-header {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "back actions"
+      "title title";
+    row-gap: 12px;
   }
-  .modal{
-    align-items:flex-start;
-    padding-top:calc(48px + env(safe-area-inset-top));
-  }
-  .modal-card{
-    max-width:none;
-    padding:22px;
-  }
-  .amount-input{
-    height:70px;
-    font-size:30px;
-  }
+
+  #btnBack { grid-area: back; justify-self: start; }
+  .history-actions { grid-area: actions; justify-self: end; }
+  .history-title { grid-area: title; text-align: center; }
 }
 </style>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#4b6cb7">
 <link rel="apple-touch-icon" href="icon.png"></head>
-<body>
 
-<div class="background"></div>
+<body>
 
 <!-- ============================================================
      ACCUEIL
@@ -1005,39 +1022,26 @@ button{
 
   <header class="header">
     <div class="brand">
-      <div class="logo">
-        <span>€</span>
-      </div>
+      <div class="logo"><span>€</span></div>
       <div>
-        <h1 class="brand-title">
-          Mes crédits
-        </h1>
-        <div class="brand-subtitle">
-          Gérez ce qu'il reste à payer
-        </div>
+        <h1 class="brand-title">Mes crédits</h1>
+        <div class="brand-subtitle">Gérez ce qu'il reste à payer</div>
       </div>
     </div>
 
-    <button id="btnHistory" class="btn btn-history" type="button">
-      ↻ Historique
-    </button>
+    <button id="btnHistory" class="btn btn-history" type="button">↻ Historique</button>
   </header>
 
-  <!-- AJOUT -->
   <button id="btnAdd" class="btn btn-add" type="button">
     <span style="font-size:22px;line-height:1">＋</span>
     Ajouter un crédit
   </button>
 
-  <!-- LISTE -->
   <ul id="listCredits"></ul>
 
-  <!-- VIDE -->
   <div id="emptyMsg">
     Aucun crédit pour le moment.<br>
-    <strong>
-      Appuyez sur + Ajouter
-    </strong>
+    <strong>Appuyez sur + Ajouter</strong>
   </div>
 
 </main>
@@ -1048,18 +1052,11 @@ button{
 <button id="totalBanner" type="button" class="hidden">
   <div class="total-inner">
     <div>
-      <div class="total-label">
-        Reste à payer
-      </div>
-      <div id="totalCount" class="total-count">
-      </div>
-      <div class="total-hint">
-        Appuyez pour tout régler
-      </div>
+      <div class="total-label">Reste à payer</div>
+      <div id="totalCount" class="total-count"></div>
+      <div class="total-hint">Appuyez pour tout régler</div>
     </div>
-    <div id="totalValue" class="total-value">
-      0,00 €
-    </div>
+    <div id="totalValue" class="total-value">0,00 €</div>
   </div>
 </button>
 
@@ -1070,41 +1067,50 @@ button{
   <div class="view-inner">
 
     <header class="history-header">
-      <button id="btnBack" type="button" class="btn btn-history">
-        ← Retour
-      </button>
+      <button id="btnBack" type="button" class="btn btn-history">← Retour</button>
 
-      <div class="history-title">
-        Historique
+      <div class="history-title">Historique</div>
+
+      <div class="history-actions">
+        <button id="btnExport" type="button" class="btn btn-history btn-icon" aria-label="Exporter la sauvegarde" title="Exporter">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12"/>
+            <path d="m7 10 5 5 5-5"/>
+            <path d="M5 21h14"/>
+          </svg>
+        </button>
+
+        <button id="btnImport" type="button" class="btn btn-history btn-icon" aria-label="Importer une sauvegarde" title="Importer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21V9"/>
+            <path d="m7 14 5-5 5 5"/>
+            <path d="M5 3h14"/>
+          </svg>
+        </button>
+
+        <button id="btnClearHistory" type="button" class="btn btn-danger">Effacer</button>
       </div>
-
-      <button id="btnClearHistory" type="button" class="btn btn-danger">
-        Effacer
-      </button>
     </header>
 
     <div id="historyTotal" class="history-total hidden">
       <div>
-        <div class="history-total-label">
-          Total réglé
-        </div>
-        <div id="historyCount" class="history-total-count">
-        </div>
+        <div class="history-total-label">Total réglé</div>
+        <div id="historyCount" class="history-total-count"></div>
       </div>
-      <div id="historyTotalValue" class="history-total-value">
-        0,00 €
-      </div>
+      <div id="historyTotalValue" class="history-total-value">0,00 €</div>
     </div>
 
-    <!-- Liste des sessions -->
     <div id="sessionList"></div>
 
-    <div id="emptyHistory" class="empty-history hidden">
-      Aucun règlement enregistré.
-    </div>
+    <div id="emptyHistory" class="empty-history hidden">Aucun règlement enregistré.</div>
 
   </div>
 </section>
+
+<!-- ============================================================
+     INPUT FILE CACHÉ (import)
+     ============================================================ -->
+<input id="inputFile" type="file" accept="application/json,.json" class="hidden">
 
 <!-- ============================================================
      MODALE AJOUT
@@ -1112,33 +1118,18 @@ button{
 <div id="modalWizard" class="modal" aria-hidden="true">
   <div class="modal-card">
 
-    <div class="add-icon">
-      ＋
-    </div>
-
-    <h2 class="modal-title">
-      Montant
-    </h2>
-
-    <div class="modal-subtitle">
-      Combien reste-t-il à payer ?
-    </div>
+    <div class="add-icon">＋</div>
+    <h2 class="modal-title">Montant</h2>
+    <div class="modal-subtitle">Combien reste-t-il à payer ?</div>
 
     <div class="amount-wrap">
       <input id="inputAmount" class="amount-input" type="text" inputmode="decimal" autocomplete="off" placeholder="0" aria-label="Montant">
-      <span class="amount-euro">
-        €
-      </span>
+      <span class="amount-euro">€</span>
     </div>
 
     <div class="modal-buttons">
-      <button id="wizCancel" class="btn btn-secondary" type="button">
-        Annuler
-      </button>
-
-      <button id="wizNext" class="btn btn-primary" type="button">
-        Ajouter
-      </button>
+      <button id="wizCancel" class="btn btn-secondary" type="button">Annuler</button>
+      <button id="wizNext" class="btn btn-primary" type="button">Ajouter</button>
     </div>
 
   </div>
@@ -1150,65 +1141,39 @@ button{
 <div id="modalConfirm" class="modal" aria-hidden="true">
   <div class="modal-card">
 
-    <h2 id="modalTitle" class="modal-title">
-      Confirmer ?
-    </h2>
-
-    <div id="modalText" class="confirm-text">
-    </div>
+    <h2 id="modalTitle" class="modal-title">Confirmer ?</h2>
+    <div id="modalText" class="confirm-text"></div>
 
     <div class="modal-buttons">
-      <button id="modalCancel" class="btn btn-secondary" type="button">
-        Annuler
-      </button>
-
-      <button id="modalOk" class="btn btn-primary" type="button">
-        Confirmer
-      </button>
+      <button id="modalCancel" class="btn btn-secondary" type="button">Annuler</button>
+      <button id="modalOk" class="btn btn-primary" type="button">Confirmer</button>
     </div>
 
   </div>
 </div>
 
 <!-- ============================================================
-     MODALE DÉTAIL SESSION
+     MODALE DÉTAIL D'UN RÈGLEMENT
      ============================================================ -->
 <div id="modalSession" class="modal" aria-hidden="true">
   <div class="modal-card">
 
     <div class="session-modal-header">
-      <div class="session-modal-icon">
-        ✓
-      </div>
-
-      <h2 id="sessionModalDate" class="session-modal-title">
-        —
-      </h2>
-
-      <div id="sessionModalTime" class="session-modal-subtitle">
-        —
-      </div>
-
-      <div id="sessionModalTotal" class="session-modal-total">
-        0,00 €
-      </div>
+      <div class="session-modal-icon">✓</div>
+      <h2 id="sessionModalDate" class="session-modal-title">—</h2>
+      <div id="sessionModalTime" class="session-modal-subtitle">—</div>
+      <div id="sessionModalTotal" class="session-modal-total">0,00 €</div>
     </div>
 
-    <div id="sessionModalList" class="session-modal-list">
-    </div>
+    <div id="sessionModalList" class="session-modal-list"></div>
 
     <div class="modal-buttons">
-      <button id="sessionModalClose" class="btn btn-primary" type="button" style="flex:1">
-        Fermer
-      </button>
+      <button id="sessionModalClose" class="btn btn-primary" type="button">Fermer</button>
     </div>
 
   </div>
 </div>
 
-<!-- ============================================================
-     TOAST
-     ============================================================ -->
 <div id="toast"></div>
 
 <script>
@@ -1217,1003 +1182,621 @@ button{
 /* ============================================================
    CONFIG
    ============================================================ */
-const CONFIG = {
-  storageKey:"mesCredits_final",
-  historyLimit:500,
-  minAmount:0.01,
-  maxAmount:999999.99
-};
+const KEY = "mesCredits_final";
+const LIMIT = 500;
+const MIN = 0.01;
+const MAX = 999999.99;
 
 /* ============================================================
-   DOM
+   DOM : tous les éléments ayant un id sont accessibles via E.<id>
    ============================================================ */
-const $ = id => document.getElementById(id);
-
-const btnAdd = $("btnAdd");
-const btnHistory = $("btnHistory");
-const btnBack = $("btnBack");
-
-const listCredits = $("listCredits");
-const emptyMsg = $("emptyMsg");
-
-const totalBanner = $("totalBanner");
-const totalValue = $("totalValue");
-const totalCount = $("totalCount");
-
-const historyView = $("historyView");
-const sessionList = $("sessionList");
-const emptyHistory = $("emptyHistory");
-const historyTotal = $("historyTotal");
-const historyTotalValue = $("historyTotalValue");
-const historyCount = $("historyCount");
-const btnClearHistory = $("btnClearHistory");
-
-const modalWizard = $("modalWizard");
-const inputAmount = $("inputAmount");
-const wizNext = $("wizNext");
-const wizCancel = $("wizCancel");
-
-const modalConfirm = $("modalConfirm");
-const modalTitle = $("modalTitle");
-const modalText = $("modalText");
-const modalOk = $("modalOk");
-const modalCancel = $("modalCancel");
-
-const modalSession = $("modalSession");
-const sessionModalDate = $("sessionModalDate");
-const sessionModalTime = $("sessionModalTime");
-const sessionModalTotal = $("sessionModalTotal");
-const sessionModalList = $("sessionModalList");
-const sessionModalClose = $("sessionModalClose");
-
-const toast = $("toast");
+const E = {};
+document.querySelectorAll("[id]").forEach(el => E[el.id] = el);
 
 /* ============================================================
    ÉTAT
    ============================================================ */
-let state = {
-  credits:[],
-  sessions:[]
+let state = { credits: [], sessions: [] };
+let confirmAction = null;
+let sorted = [];
+let toastTimer;
+let openMonths = new Set();
+
+/* ============================================================
+   UTILITAIRES
+   ============================================================ */
+const haptic = pattern => {
+  try { navigator.vibrate?.(pattern || 10); } catch {}
 };
 
-let confirmAction = null;
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
 
-/* ============================================================
-   HAPTIC
-   ============================================================ */
-function haptic(pattern){
-  if(!navigator.vibrate){
-    return;
+const sum = list => list.reduce((total, c) => total + Number(c.amount), 0);
+
+const pl = (n, one, many) => n + " " + (n > 1 ? many : one);
+
+const cred = c => ({ id: c.id, amount: Number(c.amount), createdAt: c.createdAt });
+
+const price = value =>
+  Number(value || 0).toLocaleString("fr-FR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }) + " €";
+
+/* ---------- Dates ---------- */
+const fmt = (iso, options) => {
+  const d = new Date(iso);
+  return isNaN(d) ? "—" : d.toLocaleString("fr-FR", options);
+};
+
+const shortDate = iso => fmt(iso, { day: "2-digit", month: "2-digit", year: "2-digit" });
+const time = iso => fmt(iso, { hour: "2-digit", minute: "2-digit" });
+const added = iso => "Ajouté le " + shortDate(iso) + " à " + time(iso);
+
+function longDate(iso) {
+  const d = new Date(iso);
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+
+  const isSameDay = other => d.toDateString() === other.toDateString();
+
+  if (isSameDay(today)) return "Aujourd'hui";
+  if (isSameDay(yesterday)) return "Hier";
+
+  return fmt(iso, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+}
+
+function monthKey(iso) {
+  const d = new Date(iso);
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+}
+
+function monthLabel(key) {
+  const [year, month] = key.split("-");
+  const d = new Date(Number(year), Number(month) - 1, 1);
+  return d.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+}
+
+/* ---------- Saisie du montant ---------- */
+function parseAmount(value) {
+  let text = value.trim().replace(/[\s€]/g, "");
+  if (!text) return NaN;
+
+  if (text.includes(",")) {
+    text = text.replace(/\./g, "").replace(",", ".");
   }
-  try{
-    navigator.vibrate(pattern || 10);
-  }catch(_){}
+
+  const number = Number(text);
+  return Number.isFinite(number) ? Math.round(number * 100) / 100 : NaN;
 }
+
+/* ---------- Toast ---------- */
+function toast(message) {
+  E.toast.textContent = message;
+  E.toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => E.toast.classList.remove("show"), 1800);
+}
+
+/* ---------- Ouvrir / fermer une modale ---------- */
+const toggle = (modal, open) => {
+  modal.classList.toggle("open", open);
+  modal.setAttribute("aria-hidden", !open);
+};
 
 /* ============================================================
-   STORAGE
+   STOCKAGE
    ============================================================ */
-function validCredit(item){
-  return (
-    item &&
-    typeof item.id === "string" &&
-    Number.isFinite(Number(item.amount)) &&
-    Number(item.amount) > 0
-  );
-}
+const validCredit = c =>
+  c &&
+  typeof c.id === "string" &&
+  Number.isFinite(Number(c.amount)) &&
+  Number(c.amount) > 0;
 
-function validSession(item){
-  return (
-    item &&
-    typeof item.id === "string" &&
-    typeof item.paidAt === "string" &&
-    Array.isArray(item.credits)
-  );
-}
+const validSession = s =>
+  s &&
+  typeof s.id === "string" &&
+  typeof s.paidAt === "string" &&
+  Array.isArray(s.credits);
 
-function migrateHistoryToSessions(history){
+function migrateHistory(history) {
   const map = new Map();
 
-  for(const item of history){
-    if(!validCredit(item) || !item.paidAt){
-      continue;
+  for (const item of history) {
+    if (!validCredit(item) || !item.paidAt) continue;
+
+    if (!map.has(item.paidAt)) {
+      map.set(item.paidAt, { id: uid(), paidAt: item.paidAt, credits: [] });
     }
-
-    const key = item.paidAt;
-
-    if(!map.has(key)){
-      map.set(key,{
-        id:uid(),
-        paidAt:item.paidAt,
-        credits:[]
-      });
-    }
-
-    map.get(key).credits.push({
-      id:item.id,
-      amount:Number(item.amount),
-      createdAt:item.createdAt
-    });
+    map.get(item.paidAt).credits.push(cred(item));
   }
 
-  return [...map.values()].sort(
-    (a,b) => new Date(b.paidAt) - new Date(a.paidAt)
-  );
+  return [...map.values()].sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
 }
 
-function load(){
-  try{
-    const raw = localStorage.getItem(CONFIG.storageKey);
+function load() {
+  try {
+    const data = JSON.parse(localStorage.getItem(KEY));
+    if (!data || typeof data !== "object") return;
 
-    if(!raw){
-      return;
-    }
-
-    const data = JSON.parse(raw);
-
-    if(!data || typeof data !== "object"){
-      return;
-    }
-
-    if(Array.isArray(data.credits)){
+    if (Array.isArray(data.credits)) {
       state.credits = data.credits
         .filter(validCredit)
-        .map(item => ({
-          ...item,
-          amount:Number(item.amount)
-        }));
+        .map(c => ({ ...c, amount: Number(c.amount) }));
     }
 
-    if(Array.isArray(data.sessions)){
+    if (Array.isArray(data.sessions)) {
       state.sessions = data.sessions
         .filter(validSession)
-        .slice(0,CONFIG.historyLimit)
-        .map(session => ({
-          id:session.id,
-          paidAt:session.paidAt,
-          credits:session.credits
-            .filter(validCredit)
-            .map(c => ({
-              id:c.id,
-              amount:Number(c.amount),
-              createdAt:c.createdAt
-            }))
+        .slice(0, LIMIT)
+        .map(s => ({
+          id: s.id,
+          paidAt: s.paidAt,
+          credits: s.credits.filter(validCredit).map(cred)
         }));
-
-    }else if(Array.isArray(data.history)){
-      state.sessions = migrateHistoryToSessions(data.history)
-        .slice(0,CONFIG.historyLimit);
+    } else if (Array.isArray(data.history)) {
+      state.sessions = migrateHistory(data.history).slice(0, LIMIT);
     }
 
-  }catch(error){
-    console.error(
-      "Erreur de lecture:",
-      error
-    );
-
-    state = {
-      credits:[],
-      sessions:[]
-    };
+  } catch (error) {
+    console.error("Erreur de lecture:", error);
+    state = { credits: [], sessions: [] };
   }
 }
 
-function save(){
-  try{
-    localStorage.setItem(
-      CONFIG.storageKey,
-      JSON.stringify({
-        credits:state.credits,
-        sessions:state.sessions
-      })
-    );
-
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
     return true;
-
-  }catch(error){
-    console.error(
-      "Erreur localStorage:",
-      error
-    );
-
-    showToast(
-      "Impossible de sauvegarder"
-    );
-
+  } catch (error) {
+    console.error("Erreur localStorage:", error);
+    toast("Impossible de sauvegarder");
     return false;
   }
 }
 
 /* ============================================================
-   UTILITAIRES
+   ACCUEIL
    ============================================================ */
-function uid(){
-  return (
-    Date.now().toString(36) +
-    Math.random()
-      .toString(36)
-      .slice(2,9)
-  );
-}
+function render() {
+  const count = state.credits.length;
 
-function price(value){
-  return Number(value || 0)
-    .toLocaleString(
-      "fr-FR",
-      {
-        minimumFractionDigits:2,
-        maximumFractionDigits:2
-      }
-    ) + " €";
-}
+  E.listCredits.innerHTML = state.credits.map(c => `
+    <li class="credit">
+      <div class="ico amber">€</div>
+      <div class="info"><div class="sub">${added(c.createdAt)}</div></div>
+      <div class="amt">${price(c.amount)}</div>
+    </li>
+  `).join("");
 
-function amountFromInput(value){
-  if(typeof value !== "string"){
-    return NaN;
+  E.emptyMsg.classList.toggle("hidden", count > 0);
+  E.totalBanner.classList.toggle("hidden", count === 0);
+
+  if (count) {
+    E.totalValue.textContent = price(sum(state.credits));
+    E.totalCount.textContent = pl(count, "crédit en attente", "crédits en attente");
   }
-
-  let text = value
-    .trim()
-    .replace(/\s/g,"")
-    .replace(/€/g,"");
-
-  if(!text){
-    return NaN;
-  }
-
-  if(text.includes(",")){
-    text = text
-      .replace(/\./g,"")
-      .replace(",",".");
-  }
-
-  const number = Number(text);
-
-  if(!Number.isFinite(number)){
-    return NaN;
-  }
-
-  return Math.round(number * 100) / 100;
-}
-
-function shortDate(iso){
-  const date = new Date(iso);
-
-  if(Number.isNaN(date.getTime())){
-    return "—";
-  }
-
-  return date.toLocaleDateString(
-    "fr-FR",
-    {
-      day:"2-digit",
-      month:"2-digit",
-      year:"2-digit"
-    }
-  );
-}
-
-function time(iso){
-  const date = new Date(iso);
-
-  if(Number.isNaN(date.getTime())){
-    return "—";
-  }
-
-  return date.toLocaleTimeString(
-    "fr-FR",
-    {
-      hour:"2-digit",
-      minute:"2-digit"
-    }
-  );
-}
-
-function longDate(iso){
-  const d = new Date(iso);
-  const today = new Date();
-  const yesterday = new Date();
-
-  yesterday.setDate(
-    yesterday.getDate()-1
-  );
-
-  const sameDay = (a,b) =>
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
-
-  if(sameDay(d,today)){
-    return "Aujourd'hui";
-  }
-
-  if(sameDay(d,yesterday)){
-    return "Hier";
-  }
-
-  return d.toLocaleDateString(
-    "fr-FR",
-    {
-      weekday:"long",
-      day:"numeric",
-      month:"long",
-      year:"numeric"
-    }
-  );
-}
-
-function sessionTotal(session){
-  return session.credits.reduce(
-    (sum,c) => sum + Number(c.amount),
-    0
-  );
 }
 
 /* ============================================================
-   TOAST
+   AJOUT
    ============================================================ */
-let toastTimer = null;
+let focusGuard = false;
 
-function showToast(message){
-  toast.textContent = message;
-  toast.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(
-    () => toast.classList.remove("show"),
-    1800
-  );
-}
-
-/* ============================================================
-   RENDU CRÉDITS
-   ============================================================ */
-function renderCredits(){
-  listCredits.innerHTML = "";
-
-  for(const credit of state.credits){
-    const li = document.createElement("li");
-    li.className = "credit";
-
-    const icon = document.createElement("div");
-    icon.className = "credit-icon";
-    icon.textContent = "€";
-
-    const info = document.createElement("div");
-    info.className = "credit-info";
-
-    const date = document.createElement("div");
-    date.className = "credit-date";
-    date.textContent =
-      "Ajouté le " +
-      shortDate(credit.createdAt) +
-      " à " +
-      time(credit.createdAt);
-
-    info.appendChild(date);
-
-    const amount = document.createElement("div");
-    amount.className = "credit-amount";
-    amount.textContent = price(credit.amount);
-
-    li.append(
-      icon,
-      info,
-      amount
-    );
-
-    listCredits.appendChild(li);
-  }
-
-  emptyMsg.classList.toggle(
-    "hidden",
-    state.credits.length !== 0
-  );
-
-  renderTotal();
-}
-
-/* ============================================================
-   TOTAL EN ATTENTE
-   ============================================================ */
-function totalCredits(){
-  return state.credits.reduce(
-    (sum,item) => sum + Number(item.amount),
-    0
-  );
-}
-
-function renderTotal(){
-  if(state.credits.length === 0){
-    totalBanner.classList.add("hidden");
-    return;
-  }
-
-  totalBanner.classList.remove("hidden");
-
-  totalValue.textContent = price(totalCredits());
-
-  totalCount.textContent =
-    state.credits.length +
-    (
-      state.credits.length > 1
-        ? " crédits en attente"
-        : " crédit en attente"
-    );
-}
-
-/* ============================================================
-   MODALE AJOUT
-   ============================================================ */
-function openAddModal(){
-  inputAmount.value = "";
-
-  modalWizard.classList.add("open");
-  modalWizard.setAttribute(
-    "aria-hidden",
-    "false"
-  );
-
+function openAdd() {
+  E.inputAmount.value = "";
+  toggle(E.modalWizard, true);
   haptic(18);
 
-  let focused = false;
+  focusGuard = false;
 
-  const doFocus = () => {
-    if(focused){
-      return;
-    }
-    focused = true;
-
-    try{
-      inputAmount.focus({ preventScroll: true });
-    }catch(_){
-      try{
-        inputAmount.focus();
-      }catch(__){}
-    }
+  const focus = () => {
+    if (focusGuard) return;
+    focusGuard = true;
+    try { E.inputAmount.focus({ preventScroll: true }); } catch {}
   };
 
-  requestAnimationFrame(() => {
-    requestAnimationFrame(doFocus);
+  requestAnimationFrame(() => requestAnimationFrame(focus));
+  setTimeout(focus, 120);
+}
+
+function closeAdd() {
+  E.inputAmount.blur();
+  toggle(E.modalWizard, false);
+  E.inputAmount.value = "";
+}
+
+function addCredit() {
+  const amount = parseAmount(E.inputAmount.value);
+
+  const error =
+    !Number.isFinite(amount) ? "Entre un montant valide" :
+    amount < MIN             ? "Le montant doit être supérieur à 0" :
+    amount > MAX             ? "Montant trop élevé" : "";
+
+  if (error) {
+    haptic([30, 50, 30]);
+    toast(error);
+    setTimeout(() => {
+      try { E.inputAmount.focus({ preventScroll: true }); } catch {}
+    }, 60);
+    return;
+  }
+
+  state.credits.unshift({
+    id: uid(),
+    amount,
+    createdAt: new Date().toISOString()
   });
 
-  setTimeout(doFocus, 120);
-}
-
-function closeAddModal(){
-  if(document.activeElement === inputAmount){
-    try{
-      inputAmount.blur();
-    }catch(_){}
-  }
-
-  modalWizard.classList.remove("open");
-  modalWizard.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-  inputAmount.value = "";
-}
-
-/* ============================================================
-   AJOUT CRÉDIT
-   ============================================================ */
-function addCredit(){
-  const amount = amountFromInput(
-    inputAmount.value
-  );
-
-  if(!Number.isFinite(amount)){
-    haptic([30,50,30]);
-    showToast(
-      "Entre un montant valide"
-    );
-    focusAmountAgain();
-    return;
-  }
-
-  if(amount < CONFIG.minAmount){
-    haptic([30,50,30]);
-    showToast(
-      "Le montant doit être supérieur à 0"
-    );
-    focusAmountAgain();
-    return;
-  }
-
-  if(amount > CONFIG.maxAmount){
-    haptic([30,50,30]);
-    showToast(
-      "Montant trop élevé"
-    );
-    focusAmountAgain();
-    return;
-  }
-
-  const credit = {
-    id:uid(),
-    amount:amount,
-    createdAt:new Date().toISOString()
-  };
-
-  state.credits.unshift(credit);
-
-  closeAddModal();
+  closeAdd();
   save();
-  renderCredits();
+  render();
 
-  haptic([10,40,20]);
-  showToast(
-    "Crédit ajouté ✓ " +
-    price(amount)
-  );
+  haptic([10, 40, 20]);
+  toast("Crédit ajouté ✓ " + price(amount));
 }
 
-function focusAmountAgain(){
-  setTimeout(() => {
-    try{
-      inputAmount.focus({ preventScroll: true });
-    }catch(_){}
-  }, 60);
-}
+E.btnAdd.addEventListener("click", openAdd);
+E.wizCancel.addEventListener("click", closeAdd);
+E.wizNext.addEventListener("click", addCredit);
 
-/* ============================================================
-   ÉVÉNEMENTS AJOUT
-   ============================================================ */
-btnAdd.addEventListener(
-  "click",
-  function(){
-    openAddModal();
-  }
-);
-
-wizCancel.addEventListener(
-  "click",
-  function(){
-    closeAddModal();
-  }
-);
-
-wizNext.addEventListener(
-  "click",
-  function(){
+E.inputAmount.addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    event.preventDefault();
     addCredit();
   }
-);
-
-inputAmount.addEventListener(
-  "keydown",
-  function(event){
-    if(event.key === "Enter"){
-      event.preventDefault();
-      addCredit();
-    }
-
-    if(event.key === "Escape"){
-      event.preventDefault();
-      closeAddModal();
-    }
-  }
-);
-
-modalWizard.addEventListener(
-  "click",
-  function(event){
-    if(event.target === modalWizard){
-      closeAddModal();
-    }
-  }
-);
+});
 
 /* ============================================================
-   HISTORIQUE : LISTE DES SESSIONS
+   HISTORIQUE
    ============================================================ */
-function renderHistory(){
-  sessionList.innerHTML = "";
+function renderHistory() {
+  const count = state.sessions.length;
+  const items = state.sessions.reduce((total, s) => total + s.credits.length, 0);
 
-  if(state.sessions.length === 0){
-    historyTotal.classList.add("hidden");
-    emptyHistory.classList.remove("hidden");
+  E.emptyHistory.classList.toggle("hidden", count > 0);
+  E.historyTotal.classList.toggle("hidden", count === 0);
+
+  const grandTotal = state.sessions.reduce((acc, s) => acc + sum(s.credits), 0);
+  E.historyTotalValue.textContent = price(grandTotal);
+  E.historyCount.textContent =
+    pl(count, "règlement", "règlements") + " · " + pl(items, "crédit", "crédits");
+
+  sorted = [...state.sessions].sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
+
+  const months = new Map();
+  for (const session of sorted) {
+    const key = monthKey(session.paidAt);
+    if (!months.has(key)) months.set(key, []);
+    months.get(key).push(session);
+  }
+
+  const monthKeys = [...months.keys()];
+  if (monthKeys.length && openMonths.size === 0) {
+    openMonths.add(monthKeys[0]);
+  }
+
+  E.sessionList.innerHTML = monthKeys.map(key => {
+    const sessions = months.get(key);
+    const monthTotal = sessions.reduce((acc, s) => acc + sum(s.credits), 0);
+    const isOpen = openMonths.has(key);
+
+    return `
+      <div class="month ${isOpen ? "open" : ""}" data-month="${key}">
+        <button type="button" class="month-header" data-month-toggle="${key}">
+          <div class="title">
+            <span class="chev">›</span>
+            ${monthLabel(key)}
+          </div>
+          <div class="summary">
+            ${sessions.length} · <strong>${price(monthTotal)}</strong>
+          </div>
+        </button>
+
+        <div class="month-body">
+          <div class="month-body-inner">
+            ${sessions.map(s => {
+              const idx = sorted.indexOf(s);
+              return `
+                <button type="button" class="session" data-i="${idx}"
+                        aria-label="Voir le détail du règlement du ${shortDate(s.paidAt)} à ${time(s.paidAt)}">
+                  <div class="ico green">✓</div>
+                  <div class="info">
+                    <div class="session-date">${longDate(s.paidAt)}</div>
+                    <div class="session-time">à ${time(s.paidAt)}</div>
+                    <div class="session-count">${pl(s.credits.length, "crédit réglé", "crédits réglés")}</div>
+                  </div>
+                  <div class="amt">${price(sum(s.credits))}</div>
+                  <div class="session-chevron">›</div>
+                </button>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+E.sessionList.addEventListener("click", event => {
+  const toggleBtn = event.target.closest("[data-month-toggle]");
+
+  if (toggleBtn) {
+    const key = toggleBtn.dataset.monthToggle;
+    const monthEl = toggleBtn.closest(".month");
+
+    if (openMonths.has(key)) {
+      openMonths.delete(key);
+      monthEl.classList.remove("open");
+    } else {
+      openMonths.add(key);
+      monthEl.classList.add("open");
+    }
+
+    haptic(8);
     return;
   }
 
-  emptyHistory.classList.add("hidden");
-  historyTotal.classList.remove("hidden");
+  const sessionBtn = event.target.closest(".session");
+  if (!sessionBtn) return;
 
-  const grandTotal = state.sessions.reduce(
-    (sum,s) => sum + sessionTotal(s),
-    0
-  );
+  haptic(12);
+  openSession(sorted[Number(sessionBtn.dataset.i)]);
+});
 
-  const totalItems = state.sessions.reduce(
-    (sum,s) => sum + s.credits.length,
-    0
-  );
+function openSession(session) {
+  E.sessionModalDate.textContent = longDate(session.paidAt);
+  E.sessionModalTime.textContent = "à " + time(session.paidAt);
+  E.sessionModalTotal.textContent = price(sum(session.credits));
 
-  historyTotalValue.textContent = price(grandTotal);
+  E.sessionModalList.innerHTML = [...session.credits]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .map(c => `
+      <div class="item">
+        <div class="ico amber sm">€</div>
+        <div class="info"><div class="sub">${added(c.createdAt)}</div></div>
+        <div class="amt">${price(c.amount)}</div>
+      </div>
+    `).join("");
 
-  historyCount.textContent =
-    state.sessions.length +
-    (
-      state.sessions.length > 1
-        ? " règlements · "
-        : " règlement · "
-    ) +
-    totalItems +
-    (
-      totalItems > 1
-        ? " crédits"
-        : " crédit"
-    );
-
-  const sorted = [...state.sessions].sort(
-    (a,b) => new Date(b.paidAt) - new Date(a.paidAt)
-  );
-
-  for(const session of sorted){
-    const count = session.credits.length;
-    const total = sessionTotal(session);
-
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "session";
-    btn.setAttribute(
-      "aria-label",
-      "Voir le détail du règlement du " +
-      shortDate(session.paidAt) +
-      " à " +
-      time(session.paidAt)
-    );
-
-    const icon = document.createElement("div");
-    icon.className = "session-icon";
-    icon.textContent = "✓";
-
-    const info = document.createElement("div");
-    info.className = "session-info";
-
-    const dateEl = document.createElement("div");
-    dateEl.className = "session-date";
-    dateEl.textContent = longDate(session.paidAt);
-
-    const timeEl = document.createElement("div");
-    timeEl.className = "session-time";
-    timeEl.textContent = "à " + time(session.paidAt);
-
-    const countEl = document.createElement("div");
-    countEl.className = "session-count";
-    countEl.textContent =
-      count +
-      (
-        count > 1
-          ? " crédits réglés"
-          : " crédit réglé"
-      );
-
-    info.append(
-      dateEl,
-      timeEl,
-      countEl
-    );
-
-    const amount = document.createElement("div");
-    amount.className = "session-amount";
-    amount.textContent = price(total);
-
-    const chevron = document.createElement("div");
-    chevron.className = "session-chevron";
-    chevron.textContent = "›";
-
-    btn.append(
-      icon,
-      info,
-      amount,
-      chevron
-    );
-
-    btn.addEventListener(
-      "click",
-      function(){
-        haptic(12);
-        openSessionModal(session);
-      }
-    );
-
-    sessionList.appendChild(btn);
-  }
+  toggle(E.modalSession, true);
 }
 
-/* ============================================================
-   MODALE DÉTAIL SESSION
-   ============================================================ */
-function openSessionModal(session){
-  sessionModalDate.textContent = longDate(session.paidAt);
-  sessionModalTime.textContent = "à " + time(session.paidAt);
-  sessionModalTotal.textContent = price(sessionTotal(session));
+E.sessionModalClose.addEventListener("click", () => {
+  haptic(10);
+  toggle(E.modalSession, false);
+});
 
-  sessionModalList.innerHTML = "";
+E.btnHistory.addEventListener("click", () => {
+  renderHistory();
+  E.historyView.classList.remove("hidden");
+});
 
-  const credits = [...session.credits].sort(
-    (a,b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
-
-  for(const credit of credits){
-    const item = document.createElement("div");
-    item.className = "session-modal-item";
-
-    const icon = document.createElement("div");
-    icon.className = "session-modal-item-icon";
-    icon.textContent = "€";
-
-    const info = document.createElement("div");
-    info.className = "session-modal-item-info";
-
-    const dateEl = document.createElement("div");
-    dateEl.className = "session-modal-item-date";
-    dateEl.textContent =
-      "Ajouté le " +
-      shortDate(credit.createdAt) +
-      " à " +
-      time(credit.createdAt);
-
-    info.appendChild(dateEl);
-
-    const amount = document.createElement("div");
-    amount.className = "session-modal-item-amount";
-    amount.textContent = price(credit.amount);
-
-    item.append(
-      icon,
-      info,
-      amount
-    );
-
-    sessionModalList.appendChild(item);
-  }
-
-  modalSession.classList.add("open");
-  modalSession.setAttribute(
-    "aria-hidden",
-    "false"
-  );
-}
-
-function closeSessionModal(){
-  modalSession.classList.remove("open");
-  modalSession.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-}
-
-sessionModalClose.addEventListener(
-  "click",
-  function(){
-    haptic(10);
-    closeSessionModal();
-  }
-);
-
-modalSession.addEventListener(
-  "click",
-  function(event){
-    if(event.target === modalSession){
-      closeSessionModal();
-    }
-  }
-);
-
-/* ============================================================
-   NAVIGATION HISTORIQUE
-   ============================================================ */
-btnHistory.addEventListener(
-  "click",
-  function(){
-    renderHistory();
-    historyView.classList.remove("hidden");
-  }
-);
-
-btnBack.addEventListener(
-  "click",
-  function(){
-    historyView.classList.add("hidden");
-  }
-);
+E.btnBack.addEventListener("click", () => E.historyView.classList.add("hidden"));
 
 /* ============================================================
    CONFIRMATION
    ============================================================ */
-function openConfirm(
-  title,
-  message,
-  callback
-){
-  modalTitle.textContent = title;
-  modalText.textContent = message;
+function openConfirm(title, message, callback) {
+  E.modalTitle.textContent = title;
+  E.modalText.textContent = message;
   confirmAction = callback;
-
-  modalConfirm.classList.add("open");
-  modalConfirm.setAttribute(
-    "aria-hidden",
-    "false"
-  );
+  toggle(E.modalConfirm, true);
 }
 
-function closeConfirm(){
-  modalConfirm.classList.remove("open");
-  modalConfirm.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
+function closeConfirm() {
+  toggle(E.modalConfirm, false);
   confirmAction = null;
 }
 
-modalCancel.addEventListener(
-  "click",
-  closeConfirm
-);
+E.modalCancel.addEventListener("click", closeConfirm);
 
-modalOk.addEventListener(
-  "click",
-  function(){
-    const callback = confirmAction;
-
-    closeConfirm();
-
-    if(typeof callback === "function"){
-      callback();
-    }
-  }
-);
-
-modalConfirm.addEventListener(
-  "click",
-  function(event){
-    if(event.target === modalConfirm){
-      closeConfirm();
-    }
-  }
-);
+E.modalOk.addEventListener("click", () => {
+  const callback = confirmAction;
+  closeConfirm();
+  callback?.();
+});
 
 /* ============================================================
    RÉGLER TOUT
    ============================================================ */
-function payAll(){
-  if(state.credits.length === 0){
+function payAll() {
+  if (!state.credits.length) return;
+
+  const total = sum(state.credits);
+
+  const session = {
+    id: uid(),
+    paidAt: new Date().toISOString(),
+    credits: state.credits.map(cred)
+  };
+
+  state.sessions = [session, ...state.sessions].slice(0, LIMIT);
+  state.credits = [];
+
+  openMonths.add(monthKey(session.paidAt));
+
+  save();
+  render();
+
+  haptic([10, 40, 20]);
+  toast("Tout est réglé ✓ " + price(total));
+}
+
+E.totalBanner.addEventListener("click", () => openConfirm(
+  "Tout régler ?",
+  pl(state.credits.length, "crédit", "crédits") + " pour un total de " + price(sum(state.credits)) + ".",
+  payAll
+));
+
+/* ============================================================
+   EXPORT / IMPORT
+   ============================================================ */
+function exportData() {
+  try {
+    const payload = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      credits: state.credits,
+      sessions: state.sessions
+    };
+
+    const json = JSON.stringify(payload, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const date = new Date().toISOString().slice(0, 10);
+    const filename = "mes-credits-" + date + ".json";
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    haptic([10, 40, 20]);
+    toast("Sauvegarde téléchargée ✓");
+
+  } catch (error) {
+    console.error("Erreur d'export:", error);
+    toast("Export impossible");
+  }
+}
+
+function importData(file) {
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+
+      if (!data || typeof data !== "object") {
+        throw new Error("Format invalide");
+      }
+
+      const importedCredits = Array.isArray(data.credits)
+        ? data.credits.filter(validCredit).map(c => ({ ...c, amount: Number(c.amount) }))
+        : [];
+
+      let importedSessions = [];
+
+      if (Array.isArray(data.sessions)) {
+        importedSessions = data.sessions
+          .filter(validSession)
+          .map(s => ({
+            id: s.id,
+            paidAt: s.paidAt,
+            credits: s.credits.filter(validCredit).map(cred)
+          }));
+      } else if (Array.isArray(data.history)) {
+        importedSessions = migrateHistory(data.history);
+      }
+
+      if (!importedCredits.length && !importedSessions.length) {
+        throw new Error("Aucune donnée valide");
+      }
+
+      openConfirm(
+        "Restaurer la sauvegarde ?",
+        `${pl(importedCredits.length, "crédit en attente", "crédits en attente")} et ${pl(importedSessions.length, "règlement", "règlements")} seront restaurés. Tes données actuelles seront remplacées.`,
+        () => {
+          state.credits = importedCredits;
+          state.sessions = importedSessions.slice(0, LIMIT);
+
+          openMonths.clear();
+          save();
+          render();
+          renderHistory();
+
+          haptic([10, 40, 20]);
+          toast("Sauvegarde restaurée ✓");
+        }
+      );
+
+    } catch (error) {
+      console.error("Erreur d'import:", error);
+      haptic([30, 50, 30]);
+      toast("Fichier invalide");
+    }
+  };
+
+  reader.onerror = () => {
+    haptic([30, 50, 30]);
+    toast("Impossible de lire le fichier");
+  };
+
+  reader.readAsText(file);
+}
+
+E.btnExport.addEventListener("click", exportData);
+
+E.btnImport.addEventListener("click", () => E.inputFile.click());
+
+E.inputFile.addEventListener("change", event => {
+  const file = event.target.files?.[0];
+  if (file) importData(file);
+  event.target.value = "";
+});
+
+/* ============================================================
+   EFFACER L'HISTORIQUE
+   ============================================================ */
+E.btnClearHistory.addEventListener("click", () => {
+  if (!state.sessions.length) {
+    toast("Historique déjà vide");
     return;
   }
 
-  const total = totalCredits();
-  const now = new Date().toISOString();
+  openConfirm(
+    "Effacer tout ?",
+    "Tout l'historique sera supprimé définitivement.",
+    () => {
+      state.sessions = [];
+      openMonths.clear();
+      save();
+      renderHistory();
 
-  const session = {
-    id:uid(),
-    paidAt:now,
-    credits:state.credits.map(c => ({
-      id:c.id,
-      amount:Number(c.amount),
-      createdAt:c.createdAt
-    }))
-  };
-
-  state.sessions.unshift(session);
-  state.credits = [];
-
-  if(state.sessions.length > CONFIG.historyLimit){
-    state.sessions = state.sessions.slice(
-      0,
-      CONFIG.historyLimit
-    );
-  }
-
-  save();
-  renderCredits();
-  renderHistory();
-
-  haptic([10,40,20]);
-  showToast(
-    "Tout est réglé ✓ " +
-    price(total)
+      haptic([10, 40, 20]);
+      toast("Historique effacé");
+    }
   );
+});
+
+/* ============================================================
+   FERMETURE DES MODALES
+   ============================================================ */
+const closers = {
+  modalSession: () => toggle(E.modalSession, false),
+  modalConfirm: closeConfirm,
+  modalWizard: closeAdd
+};
+
+for (const id in closers) {
+  E[id].addEventListener("click", event => {
+    if (event.target === E[id]) closers[id]();
+  });
 }
 
-/* ============================================================
-   TOTAL → RÉGLER
-   ============================================================ */
-totalBanner.addEventListener(
-  "click",
-  function(){
-    const count = state.credits.length;
-    const total = totalCredits();
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape") return;
 
-    openConfirm(
-      "Tout régler ?",
-      count +
-      (
-        count > 1
-          ? " crédits"
-          : " crédit"
-      ) +
-      " pour un total de " +
-      price(total) +
-      ".",
-      payAll
-    );
-  }
-);
+  const open = Object.keys(closers).find(id => E[id].classList.contains("open"));
 
-/* ============================================================
-   EFFACER HISTORIQUE
-   ============================================================ */
-btnClearHistory.addEventListener(
-  "click",
-  function(){
-    if(state.sessions.length === 0){
-      showToast(
-        "Historique déjà vide"
-      );
-      return;
-    }
-
-    openConfirm(
-      "Effacer tout ?",
-      "Tout l'historique sera supprimé définitivement.",
-      function(){
-        state.sessions = [];
-
-        save();
-        renderHistory();
-
-        haptic([10,40,20]);
-        showToast(
-          "Historique effacé"
-        );
-      }
-    );
-  }
-);
-
-/* ============================================================
-   ESCAPE
-   ============================================================ */
-document.addEventListener(
-  "keydown",
-  function(event){
-    if(event.key !== "Escape"){
-      return;
-    }
-
-    if(modalSession.classList.contains("open")){
-      closeSessionModal();
-      return;
-    }
-
-    if(modalConfirm.classList.contains("open")){
-      closeConfirm();
-      return;
-    }
-
-    if(modalWizard.classList.contains("open")){
-      closeAddModal();
-      return;
-    }
-
-    if(!historyView.classList.contains("hidden")){
-      historyView.classList.add("hidden");
-    }
-  }
-);
+  if (open) closers[open]();
+  else E.historyView.classList.add("hidden");
+});
 
 /* ============================================================
    INITIALISATION
    ============================================================ */
 load();
-renderCredits();
-renderHistory();
+render();
 </script>
 
 
